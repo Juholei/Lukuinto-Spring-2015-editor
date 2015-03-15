@@ -7,7 +7,7 @@ function Preload() {
 
 Preload.prototype = {
   preload: function() {
-    this.asset = this.add.sprite(this.width/2,this.height/2, 'preloader');
+    this.asset = this.add.sprite(512, 384, 'preloader');
     this.asset.anchor.setTo(0.5, 0.5);
 
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
@@ -19,8 +19,8 @@ Preload.prototype = {
     this.asset.cropEnabled = false;
   },
   update: function() {
-    if(!!this.ready) {
-      this.game.state.start('menu');
+    if (!!this.ready) {
+      this.game.state.start('editor');
     }
   },
   onLoadComplete: function() {
