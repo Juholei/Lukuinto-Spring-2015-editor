@@ -1,25 +1,18 @@
 'use strict';
+var GameDataCreator = require('../gamedata');
 
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.sprite = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'yeoman');
-    this.sprite.inputEnabled = true;
-
-    this.game.physics.arcade.enable(this.sprite);
-    this.sprite.body.collideWorldBounds = true;
-    this.sprite.body.bounce.setTo(1, 1);
-    this.sprite.body.velocity.x = this.game.rnd.integerInRange(-500, 500);
-    this.sprite.body.velocity.y = this.game.rnd.integerInRange(-500, 500);
-
-    this.sprite.events.onInputDown.add(this.clickListener, this);
+    var background = this.game.add.sprite(0, 0, 'background');
+    background.inputEnabled = true;
+    background.events.onInputDown.add(this.clickListener, this);
+    console.log(GameDataCreator);
   },
   update: function() {
-
   },
-  clickListener: function() {
-    this.game.state.start('gameover');
+  clickListener: function(sprite, pointer) {
+    console.log(pointer.x + ' ' + pointer.y);
   }
 };
 
