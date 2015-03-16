@@ -22,8 +22,8 @@ Editor.prototype = {
     this.sprites.add(pointSprite);
     console.log(Math.floor(pointer.x) + ' ' + Math.floor(pointer.y));
     console.log(this.game.data.points);
-    var textArea = document.getElementById('outputJSON');
-    textArea.value = JSON.stringify(this.game.data);
+    var textArea = window.document.getElementById('outputJSON');
+    textArea.value = JSON.stringify(this.game.data, null, 2);
   }
 };
 
