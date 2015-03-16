@@ -11,7 +11,7 @@ function GameData() {
   this.points = [];
 }
 
-function GamePoint(x, y, image, state) {
+function GamePoint(x, y, state, image) {
   this.x = x;
   this.y = y;
   this.image = image;
