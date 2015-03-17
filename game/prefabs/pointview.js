@@ -1,7 +1,7 @@
 'use strict';
 
 var PointView = function(game, pointData) {
-  Phaser.Sprite.call(this, game, pointData.x, pointData.y, 'point', 0);
+  Phaser.Sprite.call(this, game, pointData.x * 0.75, pointData.y * 0.75, 'point', 0);
   this.PointData = pointData;
   this.scale.setTo(0.5, 0.5);
   this.anchor.setTo(0.5, 0.5);
