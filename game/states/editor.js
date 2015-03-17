@@ -1,6 +1,7 @@
 'use strict';
 var GameDataCreator = require('../gamedata');
 var PointView = require('../prefabs/pointview');
+var MajorPointView = require('../prefabs/majorpointview');
 
 function Editor() {}
 Editor.prototype = {
@@ -10,17 +11,22 @@ Editor.prototype = {
     background.scale.setTo(0.75, 0.75);
     this.sprites = this.game.add.group();
     background.inputEnabled = true;
-    background.events.onInputDown.add(this.clickListener, this);
+    background.events.onInputDown.add(this.addPoint, this);
   },
   update: function() {
   },
-  clickListener: function(sprite, pointer) {
+  addPoint: function(sprite, pointer) {
     var newPoint = new GameDataCreator.GamePoint(this.scaleUp(pointer.x), this.scaleUp(pointer.y), 'unvisited');
     this.game.data.points.push(newPoint);
     var pointSprite = new PointView(this.game, newPoint, this.game.data.points);
-    this.game.add.existing(pointSprite);
     this.sprites.add(pointSprite);
     this.updatePreviewText();
+  },
+  addStartPoint: function(sprite, pointer) {
+    var startPoint = new GameDataCreator.MajorPoint(this.scaleUp(pointer.x), this.scaleUp(pointer.y));
+    this.game.data.startPoint = startPoint;
+    var startPointSprite = new MajorPointView(this.game, startPoint);
+    this.sprites.add(startPointSprite);
   },
   updatePreviewText: function() {
     var textArea = window.document.getElementById('outputJSON');
