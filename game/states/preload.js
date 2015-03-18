@@ -1,5 +1,5 @@
-
 'use strict';
+
 function Preload() {
   this.asset = null;
   this.ready = false;
@@ -15,6 +15,9 @@ Preload.prototype = {
     this.load.image('background', 'assets/karttatausta.png');
     this.load.spritesheet('point', 'assets/karttapiste.png', 88, 88, 4, 5, 10);
     this.load.spritesheet('start-end', 'assets/lahto_maali.png', 180, 236, 2, 5, 10);
+    this.load.spritesheet('add-point', 'assets/lisaa_piste.png', 210, 86, 2, 5, 10);
+    this.load.spritesheet('remove-point', 'assets/poista_piste.png', 210, 86, 2, 5, 10);
+    this.load.spritesheet('add-startpoint', 'assets/lisaa_aloitus_lopetus.png', 210, 86, 2, 5, 10);
   },
   create: function() {
     this.asset.cropEnabled = false;
