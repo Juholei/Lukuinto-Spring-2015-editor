@@ -12,8 +12,9 @@ Preload.prototype = {
 
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
-    this.load.image('yeoman', 'assets/yeoman-logo.png');
-
+    this.load.image('background', 'assets/karttatausta.png');
+    this.load.spritesheet('point', 'assets/karttapiste.png', 88, 88, 4, 5, 10);
+    this.load.spritesheet('start-end', 'assets/lahto_maali.png', 180, 236, 2, 5, 10);
   },
   create: function() {
     this.asset.cropEnabled = false;
