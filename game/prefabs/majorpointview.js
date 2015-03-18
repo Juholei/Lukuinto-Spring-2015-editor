@@ -1,7 +1,7 @@
 'use strict';
 
-var MajorPointView = function(game, majorPointData) {
-  Phaser.Sprite.call(this, game, majorPointData.x * 0.75, majorPointData.y * 0.75, 'start-end', 0);
+var MajorPointView = function(game, majorPointData, frame) {
+  Phaser.Sprite.call(this, game, majorPointData.x, majorPointData.y, 'start-end', frame);
   this.anchor.setTo(0.5, 0.7);
   this.scale.setTo(0.5, 0.5);
 
@@ -13,9 +13,11 @@ MajorPointView.prototype = Object.create(Phaser.Sprite.prototype);
 MajorPointView.prototype.constructor = MajorPointView;
 
 MajorPointView.prototype.update = function() {
+};
 
-  // write your prefab's specific update code here
-
+MajorPointView.prototype.changeLocation = function(majorPointData) {
+  this.x = majorPointData.x;
+  this.y = majorPointData.y;
 };
 
 module.exports = MajorPointView;

@@ -6,7 +6,7 @@ function MajorPoint(x, y) {
 }
 
 function GameData() {
-  this.StartPoint = new MajorPoint();
+  this.startPoint = new MajorPoint();
   this.endPoint = new MajorPoint();
   this.points = [];
 }
