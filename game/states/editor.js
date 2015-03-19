@@ -1,7 +1,6 @@
 'use strict';
-var GameDataCreator = require('../gamedata');
+var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
-var MajorPointView = require('../prefabs/majorpointview');
 var MapView = require('../prefabs/mapview');
 
 function Editor() {}

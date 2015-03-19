@@ -1,4 +1,5 @@
 'use strict';
+var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
 
 var MapView = function(game) {
@@ -7,8 +8,24 @@ var MapView = function(game) {
   this.inputEnabled = true;
   this.pointViewSprites = this.game.add.group();
   this.addChild(this.pointViewSprites);
-  this.startPointViewSprite = null;
-  this.endPointViewSprite = null;
+
+  if (this.game.data.startPoint.x !== undefined) {
+    this.startPointViewSprite = new MajorPointView(this.game, this.game.data.startPoint, 0);
+  } else {
+    this.startPointViewSprite = null;
+  }
+
+  if (this.game.data.endPoint.x !== undefined) {
+    this.endPointViewSprite = new MajorPointView(this.game, this.game.data.endPoint, 1);
+  } else {
+    this.endPointViewSprite = null;
+  }
+
+  var pointDataArray = this.game.data.points;
+
+  for (var i = 0; i < pointDataArray.length; i++) {
+    this.pointViewSprites.add(new PointView(game, pointDataArray[i], pointDataArray));
+  }
 };
 
 MapView.prototype = Object.create(Phaser.Sprite.prototype);
