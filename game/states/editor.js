@@ -97,6 +97,8 @@ Editor.prototype = {
       var image = new Image();
       image.onload = function addImageToSprite() {
         sprite.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
+        sprite.width = 768;
+        sprite.height = 576;
         console.log('Image loaded');
         URL.revokeObjectURL(image.src);
       };

@@ -4,8 +4,8 @@ var MajorPointView = require('../prefabs/majorpointview');
 
 var MapView = function(game) {
   Phaser.Sprite.call(this, game, 0, 0, 'background');
-  this.scale.setTo(0.75, 0.75);
-  this.scaleMax = new Phaser.Point(0.75, 0.75);
+  this.width = 768;
+  this.height = 576;
   this.inputEnabled = true;
   this.pointViewSprites = this.game.add.group();
   this.addChild(this.pointViewSprites);
