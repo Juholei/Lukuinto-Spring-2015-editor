@@ -11,19 +11,7 @@ Editor.prototype = {
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
-    this.startPointViewSprite = null;
-    this.endPointViewSprite = null;
-    var fileInput = window.document.getElementById('input');
-    var mapView = this.mapView;
-    fileInput.addEventListener('change', function(files) {
-      var image = new Image();
-      image.onload = function() {
-        mapView.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-        console.log('Image loaded');
-        URL.revokeObjectURL(image.src);
-      };
-      image.src = URL.createObjectURL(files.target.files[0]);
-    }, false);
+    this.addFileInputListener();
   },
   update: function() {
   },
@@ -101,6 +89,19 @@ Editor.prototype = {
   scaleUp: function(number) {
     var scaleCorrectedNumber = (number / 3) * 4;
     return Math.floor(scaleCorrectedNumber);
+  },
+  addFileInputListener: function() {
+    var fileInput = window.document.getElementById('input');
+    var sprite = this.mapView;
+    fileInput.addEventListener('change', function handleFiles(files) {
+      var image = new Image();
+      image.onload = function addImageToSprite() {
+        sprite.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
+        console.log('Image loaded');
+        URL.revokeObjectURL(image.src);
+      };
+      image.src = URL.createObjectURL(files.target.files[0]);
+    }, false);
   }
 };
 
