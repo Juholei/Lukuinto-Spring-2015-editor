@@ -14,14 +14,13 @@ Editor.prototype = {
     this.startPointViewSprite = null;
     this.endPointViewSprite = null;
     var fileInput = window.document.getElementById('input');
-    var game = this.game;
     var mapView = this.mapView;
     fileInput.addEventListener('change', function(files) {
       var image = new Image();
       image.onload = function() {
-        // mapView.key = new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT));
         mapView.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
         console.log('Image loaded');
+        URL.revokeObjectURL(image.src);
       };
       image.src = URL.createObjectURL(files.target.files[0]);
     }, false);

@@ -23,6 +23,10 @@
   "maxstatements": 15,
   "globals": {
     "Phaser": false,
-    "window": false
+    "window": false,
+    "document": false,
+    "PIXI": false,
+    "URL": false,
+    "Image": false
   }
 }
