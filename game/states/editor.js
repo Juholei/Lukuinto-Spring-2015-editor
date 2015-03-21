@@ -96,10 +96,10 @@ Editor.prototype = {
     fileInput.addEventListener('change', function handleFiles(files) {
       var image = new Image();
       image.onload = function addImageToSprite() {
-        sprite.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-        sprite.width = 768;
-        sprite.height = 576;
+        sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
         console.log('Image loaded');
+        sprite.displayImage.width = 1024;
+        sprite.displayImage.height = 768;
         URL.revokeObjectURL(image.src);
       };
       image.src = URL.createObjectURL(files.target.files[0]);
