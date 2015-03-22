@@ -3,7 +3,7 @@ var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
 
 var MapView = function(game) {
-  Phaser.Sprite.call(this, game, 0, 0);
+  Phaser.Image.call(this, game, 0, 0);
   this.width = 1024;
   this.height = 768;
   this.scale.setTo(0.75, 0.75);
@@ -16,7 +16,7 @@ var MapView = function(game) {
   this.initializeFromGameData();
 };
 
-MapView.prototype = Object.create(Phaser.Sprite.prototype);
+MapView.prototype = Object.create(Phaser.Image.prototype);
 MapView.prototype.constructor = MapView;
 
 MapView.prototype.update = function() {
@@ -56,12 +56,16 @@ MapView.prototype.updatePointViews = function() {
 MapView.prototype.initializeFromGameData = function() {
   if (this.game.data.startPoint.x !== undefined) {
     this.startPointViewSprite = new MajorPointView(this.game, this.game.data.startPoint, 0);
+    this.addChild(this.startPointViewSprite);
   } else {
     this.startPointViewSprite = null;
+    console.log('n');
   }
 
   if (this.game.data.endPoint.x !== undefined) {
     this.endPointViewSprite = new MajorPointView(this.game, this.game.data.endPoint, 1);
+    this.addChild(this.endPointViewSprite);
+
   } else {
     this.endPointViewSprite = null;
   }
