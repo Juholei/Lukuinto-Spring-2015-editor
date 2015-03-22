@@ -2,12 +2,13 @@
 var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
 
-var MapView = function(game) {
+var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
   Phaser.Image.call(this, game, 0, 0);
   this.width = 1024;
   this.height = 768;
   this.scale.setTo(0.75, 0.75);
   this.inputEnabled = true;
+  this.input.priorityID = 0;
   this.displayImage = game.add.image(0, 0, 'background');
   this.addChild(this.displayImage);
   this.pointViewSprites = this.game.add.group();
@@ -15,7 +16,7 @@ var MapView = function(game) {
 
   this.startPointViewSprite = this.initializeMajorPointView(this.game.data.startPoint, 0);
   this.endPointViewSprite = this.initializeMajorPointView(this.game.data.endPoint, 1);
-  this.initializePointViewsFromGameData();
+  this.initializePointViewsFromGameData(pointViewCallback, pointViewCallbackContext);
   this.loadBackgroundImage();
 };
 
@@ -44,6 +45,7 @@ MapView.prototype.updateEndPoint = function() {
 };
 MapView.prototype.toggleInputOnPointViews = function(inputValue) {
   this.pointViewSprites.setAll('inputEnabled', inputValue);
+  this.pointViewSprites.setAll('input.priorityID', 1);
 };
 
 MapView.prototype.addPointView = function(pointView) {
@@ -56,10 +58,12 @@ MapView.prototype.updatePointViews = function() {
     }, this);
 };
 
-MapView.prototype.initializePointViewsFromGameData = function() {
+MapView.prototype.initializePointViewsFromGameData = function(callback, context) {
   var pointDataArray = this.game.data.points;
   for (var i = 0; i < pointDataArray.length; i++) {
-    this.pointViewSprites.add(new PointView(this.game, pointDataArray[i], pointDataArray));
+    var pointView = new PointView(this.game, pointDataArray[i], pointDataArray, callback, context);
+    pointView.input.priorityID = 1;
+    this.pointViewSprites.add(pointView);
   }
 };
 

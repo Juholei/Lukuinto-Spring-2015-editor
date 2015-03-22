@@ -1,5 +1,6 @@
 'use strict';
 var MapView = require('../prefabs/mapview');
+var PointEditScreen = require('../prefabs/pointeditscreen');
 
 function Phase2() {}
 Phase2.prototype = {
@@ -8,7 +9,7 @@ Phase2.prototype = {
     // If you need to use the loader, you may need to use them here.
   },
   create: function() {
-    this.mapView = new MapView(this.game);
+    this.mapView = new MapView(this.game, this.callback, this);
     this.game.add.existing(this.mapView);
   },
   update: function() {
@@ -23,6 +24,10 @@ Phase2.prototype = {
   shutdown: function() {
     // This method will be called when the state is shut down
     // (i.e. you switch to another state from this one).
+  },
+  callback : function(pointView) {
+    var editScreen = new PointEditScreen(this.game, pointView.pointData);
+    this.game.add.existing(editScreen);
   }
 };
 module.exports = Phase2;

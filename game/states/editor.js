@@ -36,7 +36,6 @@ Editor.prototype = {
     this.mapView.toggleInputOnPointViews(false);
 
     this.mapView.events.onInputDown.removeAll();
-    this.mapView.inputEnabled = true;
     var buttonIndex = this.buttonGroup.getChildIndex(button);
 
     switch (buttonIndex) {
@@ -44,7 +43,6 @@ Editor.prototype = {
         this.mapView.events.onInputDown.add(this.addPoint, this);
         break;
       case 1:
-        this.mapView.inputEnabled = false;
         this.mapView.toggleInputOnPointViews(true);
         break;
       case 2:
