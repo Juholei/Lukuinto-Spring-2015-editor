@@ -73,15 +73,15 @@ MapView.prototype.initializeMajorPointView = function(data, frame) {
 };
 
 MapView.prototype.loadBackgroundImage = function() {
-  var image = new Image();
-  var sprite = this;
-  image.onload = function addImageToSprite() {
-    sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-    console.log('Image loaded');
-    sprite.displayImage.width = 1024;
-    sprite.displayImage.height = 768;
-  };
   if (this.game.data.image !== undefined) {
+    var image = new Image();
+    var sprite = this;
+    image.onload = function addImageToSprite() {
+      sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
+      console.log('Image loaded');
+      sprite.displayImage.width = 1024;
+      sprite.displayImage.height = 768;
+    };
     image.src = this.game.data.image;
   }
 };
