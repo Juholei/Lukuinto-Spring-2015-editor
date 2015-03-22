@@ -2,6 +2,7 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
+var LabeledButton = require('../prefabs/labeledbutton');
 
 function Editor() {}
 Editor.prototype = {
@@ -24,6 +25,8 @@ Editor.prototype = {
     this.buttonGroup.add(addStartPointButton);
     var addEndPointButton = this.game.add.button(660, 650, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
+    var nextStateButton = new LabeledButton(this.game, 880, 550, '→', this.moveToNextState, this);
+    this.buttonGroup.add(nextStateButton);
   },
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
@@ -33,7 +36,6 @@ Editor.prototype = {
     this.mapView.toggleInputOnPointViews(false);
 
     this.mapView.events.onInputDown.removeAll();
-    this.mapView.inputEnabled = true;
     var buttonIndex = this.buttonGroup.getChildIndex(button);
 
     switch (buttonIndex) {
@@ -41,7 +43,6 @@ Editor.prototype = {
         this.mapView.events.onInputDown.add(this.addPoint, this);
         break;
       case 1:
-        this.mapView.inputEnabled = false;
         this.mapView.toggleInputOnPointViews(true);
         break;
       case 2:
@@ -93,6 +94,7 @@ Editor.prototype = {
   addFileInputListener: function() {
     var fileInput = window.document.getElementById('input');
     var sprite = this.mapView;
+    var gameData = this.game.data;
     fileInput.addEventListener('change', function handleFiles(files) {
       var image = new Image();
       image.onload = function addImageToSprite() {
@@ -100,10 +102,14 @@ Editor.prototype = {
         console.log('Image loaded');
         sprite.displayImage.width = 1024;
         sprite.displayImage.height = 768;
-        URL.revokeObjectURL(image.src);
+        // URL.revokeObjectURL(image.src);
+        gameData.image = image.src;
       };
       image.src = URL.createObjectURL(files.target.files[0]);
     }, false);
+  },
+  moveToNextState: function() {
+    this.game.state.start('phase2');
   }
 };
 
