@@ -56,7 +56,9 @@ Editor.prototype = {
     }
   },
   addPoint: function(sprite, pointer) {
-    var newPoint = new GameDataCreator.GamePoint(this.scaleUp(pointer.x), this.scaleUp(pointer.y), 'unvisited');
+    var x = this.scaleUp(pointer.x - this.mapView.x);
+    var y = this.scaleUp(pointer.y - this.mapView.y);
+    var newPoint = new GameDataCreator.GamePoint(x, y, 'unvisited');
     this.game.data.points.push(newPoint);
     var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
     this.mapView.addPointView(pointSprite);
@@ -70,14 +72,14 @@ Editor.prototype = {
     this.updatePreviewText();
   },
   addStartPoint: function(sprite, pointer) {
-    this.game.data.startPoint.x = this.scaleUp(pointer.x);
-    this.game.data.startPoint.y = this.scaleUp(pointer.y);
+    this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
+    this.game.data.startPoint.y = this.scaleUp(pointer.y - this.mapView.y);
     this.mapView.updateStartPoint();
     this.updatePreviewText();
   },
   addEndPoint: function(sprite, pointer) {
-    this.game.data.endPoint.x = this.scaleUp(pointer.x);
-    this.game.data.endPoint.y = this.scaleUp(pointer.y);
+    this.game.data.endPoint.x = this.scaleUp(pointer.x - this.mapView.x);
+    this.game.data.endPoint.y = this.scaleUp(pointer.y - this.mapView.y);
     this.mapView.updateEndPoint();
     this.updatePreviewText();
   },
