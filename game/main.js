@@ -9,6 +9,5 @@ window.onload = function() {
   game.state.add('editor', require('./states/editor'));
   game.state.add('phase2', require('./states/phase2'));
   game.state.add('preload', require('./states/preload'));
-  
   game.state.start('boot');
 };
