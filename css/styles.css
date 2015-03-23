@@ -3,9 +3,16 @@ body {
 }
 
 #lukuinto-spring-2015-editor {
+  position: relative;
   border: 2px solid white;
   width: 1024px;
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
+}
+
+.textbox {
+  position: absolute;
+  left: 0;
+  top:0;
 }
