@@ -16,16 +16,20 @@ Editor.prototype = {
   },
   update: function() {
   },
+  shutdown: function() {
+    var fileInput = window.document.getElementById('input');
+    fileInput.parentNode.removeChild(fileInput);
+  },
   addButtons: function() {
-    var addPointsButton = this.game.add.button(0, 650, 'add-point', this.changeAction, this, 1, 0);
+    var addPointsButton = this.game.add.button(0, 677, 'add-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(220, 650, 'remove-point', this.changeAction, this, 1, 0);
+    var removePointsButton = this.game.add.button(220, 677, 'remove-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
-    var addStartPointButton = this.game.add.button(440, 650, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = this.game.add.button(440, 677, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(660, 650, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = this.game.add.button(660, 677, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
-    var nextStateButton = new LabeledButton(this.game, 880, 550, '→', this.moveToNextState, this);
+    var nextStateButton = new LabeledButton(this.game, 980, 720, '→', this.moveToNextState, this);
     this.buttonGroup.add(nextStateButton);
   },
   changeAction: function(button) {
