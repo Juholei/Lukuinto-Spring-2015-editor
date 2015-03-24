@@ -47,7 +47,6 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     answerInput.style.left = (this.x + 10) + 'px';
     this.answerInputs.push(answerInput);
     parentDiv.appendChild(answerInput);
-    console.log(answerInput);
   }
 };
 
@@ -55,8 +54,22 @@ PointEditScreen.prototype.confirmListener = function() {
   console.log(this.questionInput.value);
   var task = new GameDataCreator.Task();
   task.question = this.questionInput.value;
+
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    var answer = new GameDataCreator.Answer(this.answerInputs[i].value, true);
+    task.answers.push(answer);
+  }
   this.pointData.tasks.push(task);
+  this.updatePreviewText();
+  this.questionInput.parentNode.removeChild(this.questionInput);
+  this.answerInputs.forEach(function removeElement(element) {
+    element.parentNode.removeChild(element);
+  });
   this.destroy();
 };
 
+PointEditScreen.prototype.updatePreviewText = function() {
+  var textArea = window.document.getElementById('outputJSON');
+  textArea.value = JSON.stringify(this.game.data, null, 2);
+};
 module.exports = PointEditScreen;
