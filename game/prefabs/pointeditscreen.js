@@ -59,6 +59,13 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     answerCheckboxInput.style.top = (this.y + 200 + i * 25) + 'px';
     answerCheckboxInput.style.left = (this.x + 370) + 'px';
     parentDiv.appendChild(answerCheckboxInput);
+
+    if (this.pointData.tasks[0] !== undefined) {
+      if (this.pointData.tasks[0].answers[i] !== undefined) {
+        answerTextInput.value = this.pointData.tasks[0].answers[i].text;
+        answerCheckboxInput.checked = this.pointData.tasks[0].answers[i].isCorrect;
+      }
+    }
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
   }

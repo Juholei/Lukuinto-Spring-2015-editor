@@ -30,11 +30,13 @@ Phase2.prototype = {
     var closingCallback = function() {
       this.frame = 0;
       this.freezeFrames = false;
+      this.parent.parent.toggleInputOnPointViews(true);
     }.bind(pointView);
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
+    this.mapView.toggleInputOnPointViews(false);
   }
 };
 module.exports = Phase2;

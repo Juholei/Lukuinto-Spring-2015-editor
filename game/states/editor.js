@@ -64,6 +64,9 @@ Editor.prototype = {
     var x = this.scaleUp(pointer.x - this.mapView.x);
     var y = this.scaleUp(pointer.y - this.mapView.y);
     var newPoint = new GameDataCreator.GamePoint(x, y, 'unvisited');
+    if (this.game.data.points.length === 0) {
+      newPoint.state = 'next';
+    }
     this.game.data.points.push(newPoint);
     var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
     this.mapView.addPointView(pointSprite);
