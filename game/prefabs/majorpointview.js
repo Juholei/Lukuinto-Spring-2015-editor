@@ -3,11 +3,7 @@
 var MajorPointView = function(game, majorPointData, frame) {
   Phaser.Sprite.call(this, game, majorPointData.x, majorPointData.y, 'start-end', frame);
   this.anchor.setTo(0.5, 0.7);
-  this.scale.setTo(0.5, 0.5);
   this.majorPointData = majorPointData;
-
-  // initialize your prefab here
-
 };
 
 MajorPointView.prototype = Object.create(Phaser.Sprite.prototype);

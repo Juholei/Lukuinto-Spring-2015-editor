@@ -9,7 +9,8 @@ Phase2.prototype = {
     // If you need to use the loader, you may need to use them here.
   },
   create: function() {
-    this.mapView = new MapView(this.game, this.callback, this);
+    this.game.add.image(0, 0, 'frame');
+    this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
   },
   update: function() {
@@ -25,9 +26,17 @@ Phase2.prototype = {
     // This method will be called when the state is shut down
     // (i.e. you switch to another state from this one).
   },
-  callback : function(pointView) {
-    var editScreen = new PointEditScreen(this.game, pointView.pointData);
+  pointViewCallback: function(pointView) {
+    var closingCallback = function() {
+      this.frame = 0;
+      this.freezeFrames = false;
+      this.parent.parent.toggleInputOnPointViews(true);
+    }.bind(pointView);
+    var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
+    pointView.frame = 1;
+    pointView.freezeFrames = true;
+    this.mapView.toggleInputOnPointViews(false);
   }
 };
 module.exports = Phase2;

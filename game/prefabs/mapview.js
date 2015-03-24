@@ -3,7 +3,7 @@ var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
 
 var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
-  Phaser.Image.call(this, game, 128, 96);
+  Phaser.Image.call(this, game, 128, 30);
   this.width = 1024;
   this.height = 768;
   this.scale.setTo(0.75, 0.75);
