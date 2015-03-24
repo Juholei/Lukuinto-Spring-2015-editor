@@ -45,20 +45,8 @@ PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
 
   for (var i = 0; i < 4; i++) {
-    var answerTextInput = document.createElement('input');
-    answerTextInput.type = 'text';
-    answerTextInput.className = 'answerTextInput';
-    answerTextInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
-    answerTextInput.style.top = (this.y + 200 + i * 25) + 'px';
-    answerTextInput.style.left = (this.x + 10) + 'px';
-    parentDiv.appendChild(answerTextInput);
-
-    var answerCheckboxInput = document.createElement('input');
-    answerCheckboxInput.type = 'checkbox';
-    answerCheckboxInput.className = 'answerCheckboxInput';
-    answerCheckboxInput.style.top = (this.y + 200 + i * 25) + 'px';
-    answerCheckboxInput.style.left = (this.x + 370) + 'px';
-    parentDiv.appendChild(answerCheckboxInput);
+    var answerTextInput = this.addAnswerTextInput(this.x + 10, this.y + 200 + i * 25, parentDiv);
+    var answerCheckboxInput = this.addAnswerCheckBoxInput(this.x + 370, this.y + 200 + i * 25, parentDiv);
 
     if (this.pointData.tasks[0] !== undefined) {
       if (this.pointData.tasks[0].answers[i] !== undefined) {
@@ -69,6 +57,29 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
   }
+};
+
+PointEditScreen.prototype.addAnswerTextInput = function(x, y, parent) {
+  var answerTextInput = document.createElement('input');
+  answerTextInput.type = 'text';
+  answerTextInput.className = 'answerTextInput';
+  answerTextInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
+  answerTextInput.style.left = x + 'px';
+  answerTextInput.style.top = y + 'px';
+  parent.appendChild(answerTextInput);
+
+  return answerTextInput;
+};
+
+PointEditScreen.prototype.addAnswerCheckBoxInput = function(x, y, parent) {
+  var answerCheckboxInput = document.createElement('input');
+  answerCheckboxInput.type = 'checkbox';
+  answerCheckboxInput.className = 'answerCheckboxInput';
+  answerCheckboxInput.style.left = x + 'px';
+  answerCheckboxInput.style.top = y + 'px';
+  parent.appendChild(answerCheckboxInput);
+
+  return answerCheckboxInput;
 };
 
 PointEditScreen.prototype.confirmListener = function() {
