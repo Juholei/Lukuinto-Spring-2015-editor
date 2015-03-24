@@ -12,6 +12,7 @@ Preload.prototype = {
 
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
+    this.load.image('frame', 'assets/kehys.png');
     this.load.image('background', 'assets/karttatausta.png');
     this.load.spritesheet('point', 'assets/karttapiste.png', 44, 44, 2, 5, 10);
     this.load.spritesheet('start-end', 'assets/lahto_maali.png', 90, 113, 2, 5, 5);

@@ -9,6 +9,7 @@ Phase2.prototype = {
     // If you need to use the loader, you may need to use them here.
   },
   create: function() {
+    this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.callback, this);
     this.game.add.existing(this.mapView);
   },
