@@ -7,10 +7,11 @@ function AnswerInput(answerTextInput, answerCheckboxInput) {
   this. answerCheckboxInput = answerCheckboxInput;
 }
 
-var PointEditScreen = function(game, pointData) {
+var PointEditScreen = function(game, pointData, closingCallback) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
   this.pointData = pointData;
   this.answerInputs = [];
+  this.closingCallback = closingCallback;
   this.addQuestionInput();
   this.addAnswerInputs();
   var confirmButton = new LabeledButton(game, 200, 500, 'Hyväksy', this.confirmListener, this);
@@ -80,6 +81,7 @@ PointEditScreen.prototype.confirmListener = function() {
     object.answerTextInput.parentNode.removeChild(object.answerTextInput);
     object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
+  this.closingCallback();
   this.destroy();
 };
 
