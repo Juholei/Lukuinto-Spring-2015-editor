@@ -25,6 +25,11 @@ PointEditScreen.prototype.addQuestionInputBox = function() {
   this.textBox.setAttribute('placeholder', 'Kysymysteksti tähän');
   this.textBox.style.top = (this.y + 10) + 'px';
   this.textBox.style.left = (this.x + 10) + 'px';
+
+  if (this.pointData.tasks.length > 0) {
+    this.textBox.value = this.pointData.tasks[0].question;
+  }
+
   parentDiv.appendChild(this.textBox);
 };
 
@@ -33,7 +38,7 @@ PointEditScreen.prototype.confirmListener = function() {
   var task = new GameDataCreator.Task();
   task.question = this.textBox.value;
   this.pointData.tasks.push(task);
-  console.log(this.pointData);
+  this.destroy();
 };
 
 module.exports = PointEditScreen;

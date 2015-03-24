@@ -2,7 +2,6 @@
 
 var PointView = function(game, pointData, pointDataArray, callback, callbackContext) {
   Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext, 0);
-  // this.inputEnabled = false;
   this.pointData = pointData;
   this.pointDataArray = pointDataArray;
   this.scale.setTo(0.5, 0.5);
