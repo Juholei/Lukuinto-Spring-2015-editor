@@ -11,9 +11,12 @@ body {
   cursor: pointer;
 }
 
-.textbox {
+.questionBox {
   position: absolute;
-  left: 0;
-  top:0;
   resize: none;
+}
+
+.answerInput {
+  position: absolute;
+  width: 350px;
 }

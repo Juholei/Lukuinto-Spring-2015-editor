@@ -5,7 +5,9 @@ var GameDataCreator = require('../gamedatacreator');
 var PointEditScreen = function(game, pointData) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
   this.pointData = pointData;
-  this.addQuestionInputBox();
+  this.answerInputs = [];
+  this.addQuestionInput();
+  this.addAnswerInputs();
   var confirmButton = new LabeledButton(game, 200, 500, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
 };
@@ -16,27 +18,43 @@ PointEditScreen.prototype.constructor = PointEditScreen;
 PointEditScreen.prototype.update = function() {
 };
 
-PointEditScreen.prototype.addQuestionInputBox = function() {
+PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-  this.textBox = document.createElement('textarea');
-  this.textBox.className = 'textbox';
-  this.textBox.setAttribute('rows', 10);
-  this.textBox.setAttribute('cols', 50);
-  this.textBox.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.textBox.style.top = (this.y + 10) + 'px';
-  this.textBox.style.left = (this.x + 10) + 'px';
+  this.questionInput = document.createElement('textarea');
+  this.questionInput.className = 'questionBox';
+  this.questionInput.setAttribute('rows', 10);
+  this.questionInput.setAttribute('cols', 50);
+  this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
+  this.questionInput.style.top = (this.y + 10) + 'px';
+  this.questionInput.style.left = (this.x + 10) + 'px';
 
   if (this.pointData.tasks.length > 0) {
-    this.textBox.value = this.pointData.tasks[0].question;
+    this.questionInput.value = this.pointData.tasks[0].question;
   }
 
-  parentDiv.appendChild(this.textBox);
+  parentDiv.appendChild(this.questionInput);
+};
+
+PointEditScreen.prototype.addAnswerInputs = function() {
+  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+
+  for (var i = 0; i < 4; i++) {
+    var answerInput = document.createElement('input');
+    answerInput.type = 'text';
+    answerInput.className = 'answerInput';
+    answerInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
+    answerInput.style.top = (this.y + 200 + i * 25) + 'px';
+    answerInput.style.left = (this.x + 10) + 'px';
+    this.answerInputs.push(answerInput);
+    parentDiv.appendChild(answerInput);
+    console.log(answerInput);
+  }
 };
 
 PointEditScreen.prototype.confirmListener = function() {
-  console.log(this.textBox.value);
+  console.log(this.questionInput.value);
   var task = new GameDataCreator.Task();
-  task.question = this.textBox.value;
+  task.question = this.questionInput.value;
   this.pointData.tasks.push(task);
   this.destroy();
 };
