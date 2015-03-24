@@ -15,7 +15,9 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addQuestionInput();
   this.addAnswerInputs();
   var confirmButton = new LabeledButton(game, 200, 500, 'Hyväksy', this.confirmListener, this);
+  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
   this.addChild(confirmButton);
+  this.addChild(exitButton);
 };
 
 PointEditScreen.prototype = Object.create(Phaser.Image.prototype);
@@ -31,8 +33,8 @@ PointEditScreen.prototype.addQuestionInput = function() {
   this.questionInput.setAttribute('rows', 10);
   this.questionInput.setAttribute('cols', 50);
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.questionInput.style.top = (this.y + 10) + 'px';
-  this.questionInput.style.left = (this.x + 10) + 'px';
+  this.questionInput.style.top = (this.y + 66) + 'px';
+  this.questionInput.style.left = (this.x + 21) + 'px';
 
   if (this.pointData.tasks.length > 0) {
     this.questionInput.value = this.pointData.tasks[0].question;
@@ -45,8 +47,8 @@ PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
 
   for (var i = 0; i < 4; i++) {
-    var answerTextInput = this.addAnswerTextInput(this.x + 10, this.y + 200 + i * 25, parentDiv);
-    var answerCheckboxInput = this.addAnswerCheckBoxInput(this.x + 370, this.y + 200 + i * 25, parentDiv);
+    var answerTextInput = this.addAnswerTextInput(this.x + 21, this.y + 335 + i * 25, parentDiv);
+    var answerCheckboxInput = this.addAnswerCheckBoxInput(this.x + 380, this.y + 335 + i * 25, parentDiv);
 
     if (this.pointData.tasks[0] !== undefined) {
       if (this.pointData.tasks[0].answers[i] !== undefined) {
@@ -94,11 +96,17 @@ PointEditScreen.prototype.confirmListener = function() {
   }
   this.pointData.tasks.push(task);
   this.updatePreviewText();
+  this.closeScreen();
+};
+
+PointEditScreen.prototype.closeScreen = function() {
   this.questionInput.parentNode.removeChild(this.questionInput);
   this.answerInputs.forEach(function removeElement(object) {
     object.answerTextInput.parentNode.removeChild(object.answerTextInput);
     object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
+  this.closingCallback();
+  this.destroy();
   this.closingCallback();
   this.destroy();
 };
