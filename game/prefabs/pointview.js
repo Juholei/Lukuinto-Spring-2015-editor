@@ -1,14 +1,13 @@
 'use strict';
 
 var PointView = function(game, pointData, pointDataArray, callback, callbackContext) {
-  Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext, 0);
+  Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext);
   this.pointData = pointData;
   this.pointDataArray = pointDataArray;
-  this.scale.setTo(0.5, 0.5);
   this.anchor.setTo(0.5, 0.5);
   var index = this.pointDataArray.indexOf(this.pointData);
-  var indexString = (index + 1) + '.';
-  this.indexText = game.add.text(0, 0, indexString, {font: '32pt Arial', fill: 'white', align: 'center'});
+  var indexString = (index + 1);
+  this.indexText = game.add.text(0, 0, indexString, {font: '20pt Arial', fill: 'white'});
   this.indexText.anchor.setTo(0.5, 0.5);
   this.addChild(this.indexText);
 };
@@ -20,7 +19,7 @@ PointView.prototype.update = function() {};
 
 PointView.prototype.updateIndexText = function() {
   var index = this.pointDataArray.indexOf(this.pointData);
-  var indexString = (index + 1) + '.';
+  var indexString = (index + 1);
   this.indexText.text = indexString;
 };
 

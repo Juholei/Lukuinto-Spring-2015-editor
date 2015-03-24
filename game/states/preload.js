@@ -13,7 +13,7 @@ Preload.prototype = {
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
     this.load.image('background', 'assets/karttatausta.png');
-    this.load.spritesheet('point', 'assets/karttapiste.png', 88, 88, 4, 5, 10);
+    this.load.spritesheet('point', 'assets/karttapiste.png', 44, 44, 2, 5, 10);
     this.load.spritesheet('start-end', 'assets/lahto_maali.png', 90, 113, 2, 5, 5);
     this.load.spritesheet('add-point', 'assets/lisaa_piste.png', 210, 86, 2, 5, 10);
     this.load.spritesheet('remove-point', 'assets/poista_piste.png', 210, 86, 2, 5, 10);
