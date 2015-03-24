@@ -16,7 +16,11 @@ body {
   resize: none;
 }
 
-.answerInput {
+.answerTextInput {
   position: absolute;
   width: 350px;
+}
+
+.answerCheckboxInput {
+  position: absolute;
 }

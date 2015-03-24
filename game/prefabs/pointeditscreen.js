@@ -2,6 +2,11 @@
 var LabeledButton = require('../prefabs/labeledbutton');
 var GameDataCreator = require('../gamedatacreator');
 
+function AnswerInput(answerTextInput, answerCheckboxInput) {
+  this.answerTextInput = answerTextInput;
+  this. answerCheckboxInput = answerCheckboxInput;
+}
+
 var PointEditScreen = function(game, pointData) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
   this.pointData = pointData;
@@ -39,31 +44,41 @@ PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
 
   for (var i = 0; i < 4; i++) {
-    var answerInput = document.createElement('input');
-    answerInput.type = 'text';
-    answerInput.className = 'answerInput';
-    answerInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
-    answerInput.style.top = (this.y + 200 + i * 25) + 'px';
-    answerInput.style.left = (this.x + 10) + 'px';
+    var answerTextInput = document.createElement('input');
+    answerTextInput.type = 'text';
+    answerTextInput.className = 'answerTextInput';
+    answerTextInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
+    answerTextInput.style.top = (this.y + 200 + i * 25) + 'px';
+    answerTextInput.style.left = (this.x + 10) + 'px';
+    parentDiv.appendChild(answerTextInput);
+
+    var answerCheckboxInput = document.createElement('input');
+    answerCheckboxInput.type = 'checkbox';
+    answerCheckboxInput.className = 'answerCheckboxInput';
+    answerCheckboxInput.style.top = (this.y + 200 + i * 25) + 'px';
+    answerCheckboxInput.style.left = (this.x + 370) + 'px';
+    parentDiv.appendChild(answerCheckboxInput);
+    var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
-    parentDiv.appendChild(answerInput);
   }
 };
 
 PointEditScreen.prototype.confirmListener = function() {
-  console.log(this.questionInput.value);
   var task = new GameDataCreator.Task();
   task.question = this.questionInput.value;
 
   for (var i = 0; i < this.answerInputs.length; i++) {
-    var answer = new GameDataCreator.Answer(this.answerInputs[i].value, true);
+    var answerText = this.answerInputs[i].answerTextInput.value;
+    var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
+    var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
     task.answers.push(answer);
   }
   this.pointData.tasks.push(task);
   this.updatePreviewText();
   this.questionInput.parentNode.removeChild(this.questionInput);
-  this.answerInputs.forEach(function removeElement(element) {
-    element.parentNode.removeChild(element);
+  this.answerInputs.forEach(function removeElement(object) {
+    object.answerTextInput.parentNode.removeChild(object.answerTextInput);
+    object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
   this.destroy();
 };
