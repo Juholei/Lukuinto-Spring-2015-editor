@@ -22,18 +22,14 @@ Editor.prototype = {
   },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
-    addStartPointButton.scale.setTo(0.75);
     this.buttonGroup.add(addStartPointButton);
     var addEndPointButton = this.game.add.button(334, 646, 'add-startpoint', this.changeAction, this, 1, 0);
-    addEndPointButton.scale.setTo(0.75);
     this.buttonGroup.add(addEndPointButton);
     var addPointsButton = this.game.add.button(514, 646, 'add-point', this.changeAction, this, 1, 0);
-    addPointsButton.scale.setTo(0.75);
     this.buttonGroup.add(addPointsButton);
     var removePointsButton = this.game.add.button(694, 646, 'remove-point', this.changeAction, this, 1, 0);
-    removePointsButton.scale.setTo(0.75);
     this.buttonGroup.add(removePointsButton);
-    this.game.add.button(891, 641, 'state-change-arrows', this.moveToNextState, this, 1, 1, 1, 1);
+    this.game.add.button(891, 641, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
