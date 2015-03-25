@@ -20,6 +20,7 @@ Preload.prototype = {
     this.load.spritesheet('remove-point', 'assets/poista_piste.png', 210, 86, 2, 5, 10);
     this.load.spritesheet('add-startpoint', 'assets/lisaa_aloitus_lopetus.png', 210, 86, 2, 5, 10);
     this.load.spritesheet('button', 'assets/painike.png', 210, 86, 2, 5, 10);
+    this.load.spritesheet('state-change-arrows', 'assets/seuraava_edellinen.png', 78, 72, 2, 5, 10);
     this.load.image('point-edit-screen', 'assets/etapin_muokkaus_tausta.png');
     this.load.image('close-button', 'assets/sulje.png');
   },

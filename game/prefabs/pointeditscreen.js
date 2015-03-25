@@ -12,11 +12,15 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.pointData = pointData;
   this.answerInputs = [];
   this.closingCallback = closingCallback;
+  this.addTitleText();
+  this.addAnswerOptionsText();
   this.addQuestionInput();
+  this.addTaskSelectionBox();
   this.addAnswerInputs();
-  var confirmButton = new LabeledButton(game, 200, 500, 'Hyväksy', this.confirmListener, this);
-  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
+
+  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
+  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
   this.addChild(exitButton);
 };
 
@@ -26,38 +30,55 @@ PointEditScreen.prototype.constructor = PointEditScreen;
 PointEditScreen.prototype.update = function() {
 };
 
+PointEditScreen.prototype.addTitleText = function() {
+  var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
+  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
+  this.addChild(titleText);
+};
+
+PointEditScreen.prototype.addAnswerOptionsText = function() {
+  var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
+  var answerOptionsText = this.game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  this.addChild(answerOptionsText);
+};
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
-  this.questionInput.setAttribute('rows', 10);
-  this.questionInput.setAttribute('cols', 50);
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.questionInput.style.top = (this.y + 66) + 'px';
   this.questionInput.style.left = (this.x + 21) + 'px';
-
-  if (this.pointData.tasks.length > 0) {
-    this.questionInput.value = this.pointData.tasks[0].question;
-  }
-
+  this.questionInput.style.top = (this.y + 66) + 'px';
   parentDiv.appendChild(this.questionInput);
+};
+
+PointEditScreen.prototype.fillQuestionInput = function(taskIndex) {
+  this.questionInput.value = this.pointData.tasks[taskIndex].question;
 };
 
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  var margin = 50;
 
   for (var i = 0; i < 4; i++) {
-    var answerTextInput = this.addAnswerTextInput(this.x + 21, this.y + 335 + i * 25, parentDiv);
-    var answerCheckboxInput = this.addAnswerCheckBoxInput(this.x + 380, this.y + 335 + i * 25, parentDiv);
+    var textX = this.x + 20;
+    var textY = this.y + 335 + i * margin;
+    var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
 
-    if (this.pointData.tasks[0] !== undefined) {
-      if (this.pointData.tasks[0].answers[i] !== undefined) {
-        answerTextInput.value = this.pointData.tasks[0].answers[i].text;
-        answerCheckboxInput.checked = this.pointData.tasks[0].answers[i].isCorrect;
-      }
-    }
+    var checkboxX = this.x + 363;
+    var checkboxY = this.y + 335 + i * margin;
+    var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
+
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
+  }
+};
+
+PointEditScreen.prototype.fillAnswerInputs = function(taskIndex) {
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    var answerTextInput = this.answerInputs[i].answerTextInput;
+    var answerCheckboxInput = this.answerInputs[i].answerCheckboxInput;
+    answerTextInput.value = this.pointData.tasks[taskIndex].answers[i].text;
+    answerCheckboxInput.checked = this.pointData.tasks[taskIndex].answers[i].isCorrect;
   }
 };
 
@@ -73,7 +94,7 @@ PointEditScreen.prototype.addAnswerTextInput = function(x, y, parent) {
   return answerTextInput;
 };
 
-PointEditScreen.prototype.addAnswerCheckBoxInput = function(x, y, parent) {
+PointEditScreen.prototype.addAnswerCheckboxInput = function(x, y, parent) {
   var answerCheckboxInput = document.createElement('input');
   answerCheckboxInput.type = 'checkbox';
   answerCheckboxInput.className = 'answerCheckboxInput';
@@ -82,6 +103,30 @@ PointEditScreen.prototype.addAnswerCheckBoxInput = function(x, y, parent) {
   parent.appendChild(answerCheckboxInput);
 
   return answerCheckboxInput;
+};
+
+PointEditScreen.prototype.addTaskSelectionBox = function() {
+  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  this.taskSelector = document.createElement('select');
+  this.taskSelector.className = 'taskSelection';
+  this.taskSelector.setAttribute('size', 10);
+  this.taskSelector.style.left = (this.x + 21 + 226) + 'px';
+  this.taskSelector.style.top = (this.y + 66) + 'px';
+
+  for (var i = 0; i < this.pointData.tasks.length; i++) {
+    var option = document.createElement('option');
+    option.value = i;
+    option.text = 'Tehtävä ' + (i + 1);
+    this.taskSelector.appendChild(option);
+  }
+
+  var self = this;
+  this.taskSelector.onchange = function() {
+    console.log(this.value);
+    self.fillQuestionInput(this.value);
+    self.fillAnswerInputs(this.value);
+  };
+  parentDiv.appendChild(this.taskSelector);
 };
 
 PointEditScreen.prototype.confirmListener = function() {
@@ -94,7 +139,11 @@ PointEditScreen.prototype.confirmListener = function() {
     var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
     task.answers.push(answer);
   }
-  this.pointData.tasks.push(task);
+  if (this.taskSelector.value !== '') {
+    this.pointData.tasks[this.taskSelector.value] = task;
+  } else {
+    this.pointData.tasks.push(task);
+  }
   this.updatePreviewText();
   this.closeScreen();
 };
@@ -105,8 +154,7 @@ PointEditScreen.prototype.closeScreen = function() {
     object.answerTextInput.parentNode.removeChild(object.answerTextInput);
     object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
-  this.closingCallback();
-  this.destroy();
+  this.taskSelector.parentNode.removeChild(this.taskSelector);
   this.closingCallback();
   this.destroy();
 };

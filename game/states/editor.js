@@ -2,7 +2,6 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
-var LabeledButton = require('../prefabs/labeledbutton');
 
 function Editor() {}
 Editor.prototype = {
@@ -22,16 +21,19 @@ Editor.prototype = {
     fileInput.parentNode.removeChild(fileInput);
   },
   addButtons: function() {
-    var addPointsButton = this.game.add.button(0, 677, 'add-point', this.changeAction, this, 1, 0);
-    this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(220, 677, 'remove-point', this.changeAction, this, 1, 0);
-    this.buttonGroup.add(removePointsButton);
-    var addStartPointButton = this.game.add.button(440, 677, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
+    addStartPointButton.scale.setTo(0.75);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(660, 677, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = this.game.add.button(334, 646, 'add-startpoint', this.changeAction, this, 1, 0);
+    addEndPointButton.scale.setTo(0.75);
     this.buttonGroup.add(addEndPointButton);
-    var nextStateButton = new LabeledButton(this.game, 980, 720, '→', this.moveToNextState, this);
-    this.buttonGroup.add(nextStateButton);
+    var addPointsButton = this.game.add.button(514, 646, 'add-point', this.changeAction, this, 1, 0);
+    addPointsButton.scale.setTo(0.75);
+    this.buttonGroup.add(addPointsButton);
+    var removePointsButton = this.game.add.button(694, 646, 'remove-point', this.changeAction, this, 1, 0);
+    removePointsButton.scale.setTo(0.75);
+    this.buttonGroup.add(removePointsButton);
+    this.game.add.button(891, 641, 'state-change-arrows', this.moveToNextState, this, 1, 1, 1, 1);
   },
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
@@ -45,16 +47,16 @@ Editor.prototype = {
 
     switch (buttonIndex) {
       case 0:
-        this.mapView.events.onInputDown.add(this.addPoint, this);
-        break;
-      case 1:
-        this.mapView.toggleInputOnPointViews(true);
-        break;
-      case 2:
         this.mapView.events.onInputDown.add(this.addStartPoint, this);
         break;
-      case 3:
+      case 1:
         this.mapView.events.onInputDown.add(this.addEndPoint, this);
+        break;
+      case 2:
+        this.mapView.events.onInputDown.add(this.addPoint, this);
+        break;
+      case 3:
+        this.mapView.toggleInputOnPointViews(true);
         break;
       default:
         console.log('Invalid button index encountered, how the heck did that happen?');
