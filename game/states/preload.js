@@ -16,13 +16,13 @@ Preload.prototype = {
     this.load.image('background', 'assets/karttatausta.png');
     this.load.spritesheet('point', 'assets/karttapiste.png', 44, 44, 2, 5, 10);
     this.load.spritesheet('start-end', 'assets/lahto_maali.png', 90, 113, 2, 5, 5);
-    this.load.spritesheet('add-point', 'assets/lisaa_piste.png', 210, 86, 2, 5, 10);
-    this.load.spritesheet('remove-point', 'assets/poista_piste.png', 210, 86, 2, 5, 10);
-    this.load.spritesheet('add-startpoint', 'assets/lisaa_aloitus_lopetus.png', 210, 86, 2, 5, 10);
+    this.load.spritesheet('add-point', 'assets/lisaa_piste.png', 155, 62, 2, 5, 10);
+    this.load.spritesheet('remove-point', 'assets/poista_piste.png', 155, 62, 2, 5, 10);
+    this.load.spritesheet('add-startpoint', 'assets/lisaa_aloitus_lopetus.png', 155, 62, 2, 5, 10);
     this.load.spritesheet('button', 'assets/painike.png', 210, 86, 2, 5, 10);
-    this.load.spritesheet('state-change-arrows', 'assets/seuraava_edellinen.png', 78, 72, 2, 5, 10);
+    this.load.spritesheet('next-state', 'assets/seuraava.png', 78, 72, 3, 5, 10);
     this.load.image('point-edit-screen', 'assets/etapin_muokkaus_tausta.png');
-    this.load.image('close-button', 'assets/sulje.png');
+    this.load.spritesheet('close-button', 'assets/sulje.png', 44, 44, 3, 5, 10);
   },
   create: function() {
     this.asset.cropEnabled = false;

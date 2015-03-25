@@ -20,7 +20,7 @@ var PointEditScreen = function(game, pointData, closingCallback) {
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
-  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
+  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
   this.addChild(exitButton);
 };
 
