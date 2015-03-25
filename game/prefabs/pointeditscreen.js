@@ -14,7 +14,7 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.closingCallback = closingCallback;
   this.addQuestionInput();
   this.addAnswerInputs();
-  var confirmButton = new LabeledButton(game, 200, 500, 'Hyväksy', this.confirmListener, this);
+  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
   this.addChild(confirmButton);
   this.addChild(exitButton);
@@ -30,8 +30,6 @@ PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
-  this.questionInput.setAttribute('rows', 10);
-  this.questionInput.setAttribute('cols', 50);
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
   this.questionInput.style.top = (this.y + 66) + 'px';
   this.questionInput.style.left = (this.x + 21) + 'px';
@@ -45,14 +43,15 @@ PointEditScreen.prototype.addQuestionInput = function() {
 
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  var margin = 50;
 
   for (var i = 0; i < 4; i++) {
     var textX = this.x + 20;
-    var textY = this.y + 335 + i * 25;
+    var textY = this.y + 335 + i * margin;
     var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
 
-    var checkboxX = this.x + 380;
-    var checkboxY = this.y + 335 + i * 25;
+    var checkboxX = this.x + 363;
+    var checkboxY = this.y + 335 + i * margin;
     var answerCheckboxInput = this.addAnswerCheckBoxInput(checkboxX, checkboxY, parentDiv);
 
     if (this.pointData.tasks[0] !== undefined) {

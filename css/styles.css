@@ -14,13 +14,23 @@ body {
 .questionBox {
   position: absolute;
   resize: none;
+  border: 3px solid black;
+  font-size: 16px;
+  height: 238px;
+  width: 219px;
 }
 
 .answerTextInput {
   position: absolute;
-  width: 350px;
+  width: 302px;
+  height: 31px;
+  border: 3px solid black;
+  font-size: 16px;
 }
 
 .answerCheckboxInput {
   position: absolute;
+  height: 3em;
+  width: 3em;
 }
+
