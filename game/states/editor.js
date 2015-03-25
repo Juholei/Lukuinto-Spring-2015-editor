@@ -33,8 +33,7 @@ Editor.prototype = {
     var removePointsButton = this.game.add.button(694, 646, 'remove-point', this.changeAction, this, 1, 0);
     removePointsButton.scale.setTo(0.75);
     this.buttonGroup.add(removePointsButton);
-    var nextStateButton = this.game.add.button(891, 641, 'state-change-arrows', this.moveToNextState, this, 1, 1, 1, 1);
-    this.buttonGroup.add(nextStateButton);
+    this.game.add.button(891, 641, 'state-change-arrows', this.moveToNextState, this, 1, 1, 1, 1);
   },
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
