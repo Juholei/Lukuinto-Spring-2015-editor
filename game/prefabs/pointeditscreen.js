@@ -16,6 +16,13 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addAnswerInputs();
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
+
+  this.addTitleText();
+  this.addAnswerOptionsText();
+  var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
+  var answerOptionsText = game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  this.addChild(answerOptionsText);
+
   this.addChild(confirmButton);
   this.addChild(exitButton);
 };
@@ -26,6 +33,17 @@ PointEditScreen.prototype.constructor = PointEditScreen;
 PointEditScreen.prototype.update = function() {
 };
 
+PointEditScreen.prototype.addTitleText = function() {
+  var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
+  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
+  this.addChild(titleText);
+};
+
+PointEditScreen.prototype.addAnswerOptionsText = function() {
+  var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
+  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
+  this.addChild(titleText);
+};
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
