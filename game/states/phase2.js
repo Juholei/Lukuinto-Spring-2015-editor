@@ -12,6 +12,7 @@ Phase2.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
+    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
   },
   update: function() {
     // state update code
@@ -37,6 +38,9 @@ Phase2.prototype = {
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
+  },
+  moveToPreviousState: function() {
+    this.game.state.start('editor');
   }
 };
 module.exports = Phase2;

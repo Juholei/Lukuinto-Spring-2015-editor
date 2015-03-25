@@ -6,7 +6,9 @@ var MapView = require('../prefabs/mapview');
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.game.data = new GameDataCreator.GameData();
+    this.fileInput = document.createElement('input');
+    this.fileInput.type = 'file';
+    document.body.appendChild(this.fileInput);
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game);
     this.game.add.existing(this.mapView);
@@ -17,8 +19,7 @@ Editor.prototype = {
   update: function() {
   },
   shutdown: function() {
-    var fileInput = window.document.getElementById('input');
-    fileInput.parentNode.removeChild(fileInput);
+    this.fileInput.parentNode.removeChild(this.fileInput);
   },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
@@ -100,10 +101,9 @@ Editor.prototype = {
     return Math.floor(scaleCorrectedNumber);
   },
   addFileInputListener: function() {
-    var fileInput = window.document.getElementById('input');
     var sprite = this.mapView;
     var gameData = this.game.data;
-    fileInput.addEventListener('change', function handleFiles(files) {
+    this.fileInput.addEventListener('change', function handleFiles(files) {
       var image = new Image();
       image.onload = function addImageToSprite() {
         sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
