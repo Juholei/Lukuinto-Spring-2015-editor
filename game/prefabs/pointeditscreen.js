@@ -15,6 +15,7 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addTitleText();
   this.addAnswerOptionsText();
   this.addQuestionInput();
+  this.addTaskSelectionBox();
   this.addAnswerInputs();
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
@@ -45,8 +46,8 @@ PointEditScreen.prototype.addQuestionInput = function() {
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.questionInput.style.top = (this.y + 66) + 'px';
   this.questionInput.style.left = (this.x + 21) + 'px';
+  this.questionInput.style.top = (this.y + 66) + 'px';
 
   if (this.pointData.tasks.length > 0) {
     this.questionInput.value = this.pointData.tasks[0].question;
@@ -66,7 +67,7 @@ PointEditScreen.prototype.addAnswerInputs = function() {
 
     var checkboxX = this.x + 363;
     var checkboxY = this.y + 335 + i * margin;
-    var answerCheckboxInput = this.addAnswerCheckBoxInput(checkboxX, checkboxY, parentDiv);
+    var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
 
     if (this.pointData.tasks[0] !== undefined) {
       if (this.pointData.tasks[0].answers[i] !== undefined) {
@@ -91,7 +92,7 @@ PointEditScreen.prototype.addAnswerTextInput = function(x, y, parent) {
   return answerTextInput;
 };
 
-PointEditScreen.prototype.addAnswerCheckBoxInput = function(x, y, parent) {
+PointEditScreen.prototype.addAnswerCheckboxInput = function(x, y, parent) {
   var answerCheckboxInput = document.createElement('input');
   answerCheckboxInput.type = 'checkbox';
   answerCheckboxInput.className = 'answerCheckboxInput';
@@ -100,6 +101,23 @@ PointEditScreen.prototype.addAnswerCheckBoxInput = function(x, y, parent) {
   parent.appendChild(answerCheckboxInput);
 
   return answerCheckboxInput;
+};
+
+PointEditScreen.prototype.addTaskSelectionBox = function() {
+  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  this.taskSelector = document.createElement('select');
+  this.taskSelector.className = 'taskSelection';
+  this.taskSelector.setAttribute('size', 10);
+  this.taskSelector.style.left = (this.x + 21 + 226) + 'px';
+  this.taskSelector.style.top = (this.y + 66) + 'px';
+
+  for (var i = 0; i < this.pointData.tasks.length; i++) {
+    var option = document.createElement('option');
+    option.value = i;
+    option.text = 'Tehtävä ' + (i + 1);
+    this.taskSelector.appendChild(option);
+  }
+  parentDiv.appendChild(this.taskSelector);
 };
 
 PointEditScreen.prototype.confirmListener = function() {
@@ -123,8 +141,7 @@ PointEditScreen.prototype.closeScreen = function() {
     object.answerTextInput.parentNode.removeChild(object.answerTextInput);
     object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
-  this.closingCallback();
-  this.destroy();
+  this.taskSelector.parentNode.removeChild(this.taskSelector);
   this.closingCallback();
   this.destroy();
 };

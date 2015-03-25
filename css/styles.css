@@ -34,3 +34,9 @@ body {
   width: 3em;
 }
 
+.taskSelection {
+  position: absolute;
+  height: 248px;
+  width: 140px;
+  border: 3px solid black;
+}
