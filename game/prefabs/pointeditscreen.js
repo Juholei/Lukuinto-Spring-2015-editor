@@ -48,12 +48,11 @@ PointEditScreen.prototype.addQuestionInput = function() {
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
   this.questionInput.style.left = (this.x + 21) + 'px';
   this.questionInput.style.top = (this.y + 66) + 'px';
-
-  if (this.pointData.tasks.length > 0) {
-    this.questionInput.value = this.pointData.tasks[0].question;
-  }
-
   parentDiv.appendChild(this.questionInput);
+};
+
+PointEditScreen.prototype.fillQuestionInput = function(taskIndex) {
+  this.questionInput.value = this.pointData.tasks[taskIndex].question;
 };
 
 PointEditScreen.prototype.addAnswerInputs = function() {
@@ -69,14 +68,17 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     var checkboxY = this.y + 335 + i * margin;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
 
-    if (this.pointData.tasks[0] !== undefined) {
-      if (this.pointData.tasks[0].answers[i] !== undefined) {
-        answerTextInput.value = this.pointData.tasks[0].answers[i].text;
-        answerCheckboxInput.checked = this.pointData.tasks[0].answers[i].isCorrect;
-      }
-    }
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
+  }
+};
+
+PointEditScreen.prototype.fillAnswerInputs = function(taskIndex) {
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    var answerTextInput = this.answerInputs[i].answerTextInput;
+    var answerCheckboxInput = this.answerInputs[i].answerCheckboxInput;
+    answerTextInput.value = this.pointData.tasks[taskIndex].answers[i].text;
+    answerCheckboxInput.checked = this.pointData.tasks[taskIndex].answers[i].isCorrect;
   }
 };
 
@@ -117,6 +119,13 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
     option.text = 'Tehtävä ' + (i + 1);
     this.taskSelector.appendChild(option);
   }
+
+  var self = this;
+  this.taskSelector.onchange = function() {
+    console.log(this.value);
+    self.fillQuestionInput(this.value);
+    self.fillAnswerInputs(this.value);
+  };
   parentDiv.appendChild(this.taskSelector);
 };
 
@@ -130,7 +139,11 @@ PointEditScreen.prototype.confirmListener = function() {
     var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
     task.answers.push(answer);
   }
-  this.pointData.tasks.push(task);
+  if (this.taskSelector.value !== '') {
+    this.pointData.tasks[this.taskSelector.value] = task;
+  } else {
+    this.pointData.tasks.push(task);
+  }
   this.updatePreviewText();
   this.closeScreen();
 };
