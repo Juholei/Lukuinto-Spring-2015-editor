@@ -18,6 +18,7 @@ body {
   font-size: 16px;
   height: 238px;
   width: 219px;
+  font-family: Arial, sans-serif;
 }
 
 .answerTextInput {
@@ -26,6 +27,7 @@ body {
   height: 31px;
   border: 3px solid black;
   font-size: 16px;
+  font-family: Arial, sans-serif;
 }
 
 .answerCheckboxInput {
@@ -40,4 +42,5 @@ body {
   width: 140px;
   border: 3px solid black;
   font-size: 16px;
+  font-family: Arial, sans-serif;
 }
