@@ -47,8 +47,13 @@ PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
 
   for (var i = 0; i < 4; i++) {
-    var answerTextInput = this.addAnswerTextInput(this.x + 21, this.y + 335 + i * 25, parentDiv);
-    var answerCheckboxInput = this.addAnswerCheckBoxInput(this.x + 380, this.y + 335 + i * 25, parentDiv);
+    var textX = this.x + 20;
+    var textY = this.y + 335 + i * 25;
+    var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
+
+    var checkboxX = this.x + 380;
+    var checkboxY = this.y + 335 + i * 25;
+    var answerCheckboxInput = this.addAnswerCheckBoxInput(checkboxX, checkboxY, parentDiv);
 
     if (this.pointData.tasks[0] !== undefined) {
       if (this.pointData.tasks[0].answers[i] !== undefined) {
