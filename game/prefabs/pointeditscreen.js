@@ -12,18 +12,14 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.pointData = pointData;
   this.answerInputs = [];
   this.closingCallback = closingCallback;
-  this.addQuestionInput();
-  this.addAnswerInputs();
-  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
-  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
-
   this.addTitleText();
   this.addAnswerOptionsText();
-  var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
-  var answerOptionsText = game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
-  this.addChild(answerOptionsText);
+  this.addQuestionInput();
+  this.addAnswerInputs();
 
+  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
+  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this);
   this.addChild(exitButton);
 };
 
@@ -40,9 +36,9 @@ PointEditScreen.prototype.addTitleText = function() {
 };
 
 PointEditScreen.prototype.addAnswerOptionsText = function() {
-  var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
-  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
-  this.addChild(titleText);
+  var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
+  var answerOptionsText = this.game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  this.addChild(answerOptionsText);
 };
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
