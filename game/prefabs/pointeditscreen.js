@@ -1,6 +1,7 @@
 'use strict';
 var LabeledButton = require('../prefabs/labeledbutton');
 var GameDataCreator = require('../gamedatacreator');
+var FileInputHandler = require('../fileinputhandler');
 
 function AnswerInput(answerTextInput, answerCheckboxInput) {
   this.answerTextInput = answerTextInput;
@@ -9,6 +10,8 @@ function AnswerInput(answerTextInput, answerCheckboxInput) {
 
 var PointEditScreen = function(game, pointData, closingCallback) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
+  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  this.fileInputHandler = new FileInputHandler(this.x + 20, 590, parentDiv);
   this.pointData = pointData;
   this.answerInputs = [];
   this.closingCallback = closingCallback;
@@ -20,7 +23,7 @@ var PointEditScreen = function(game, pointData, closingCallback) {
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
-  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
+  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0);
   this.addChild(exitButton);
 };
 
@@ -155,6 +158,7 @@ PointEditScreen.prototype.closeScreen = function() {
     object.answerCheckboxInput.parentNode.removeChild(object.answerCheckboxInput);
   });
   this.taskSelector.parentNode.removeChild(this.taskSelector);
+  this.fileInputHandler.remove();
   this.closingCallback();
   this.destroy();
 };
