@@ -20,6 +20,11 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addQuestionInput();
   this.addTaskSelectionBox();
   this.addAnswerInputs();
+  var previewFrame = this.game.add.sprite(-576, 0);
+  this.addChild(previewFrame);
+  previewFrame.width = 576;
+  previewFrame.height = 360;
+  this.fileInputHandler.addFileInputListener(previewFrame, this.pointData);
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
