@@ -1,6 +1,5 @@
-
 'use strict';
-
+var GameDataCreator = require('../gamedatacreator');
 function Boot() {
 }
 
@@ -11,6 +10,7 @@ Boot.prototype = {
   create: function() {
     this.game.input.maxPointers = 1;
     this.game.state.start('preload');
+    this.game.data = new GameDataCreator.GameData();
   }
 };
 

@@ -2,14 +2,15 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
-var LabeledButton = require('../prefabs/labeledbutton');
 
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.game.data = new GameDataCreator.GameData();
+    this.fileInput = document.createElement('input');
+    this.fileInput.type = 'file';
+    document.body.appendChild(this.fileInput);
     this.game.add.image(0, 0, 'frame');
-    this.mapView = new MapView(this.game);
+    this.mapView = new MapView(this.game, this.removePoint, this);
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
@@ -18,20 +19,18 @@ Editor.prototype = {
   update: function() {
   },
   shutdown: function() {
-    var fileInput = window.document.getElementById('input');
-    fileInput.parentNode.removeChild(fileInput);
+    this.fileInput.parentNode.removeChild(this.fileInput);
   },
   addButtons: function() {
-    var addPointsButton = this.game.add.button(0, 677, 'add-point', this.changeAction, this, 1, 0);
-    this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(220, 677, 'remove-point', this.changeAction, this, 1, 0);
-    this.buttonGroup.add(removePointsButton);
-    var addStartPointButton = this.game.add.button(440, 677, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(660, 677, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = this.game.add.button(334, 646, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
-    var nextStateButton = new LabeledButton(this.game, 980, 720, '→', this.moveToNextState, this);
-    this.buttonGroup.add(nextStateButton);
+    var addPointsButton = this.game.add.button(514, 646, 'add-point', this.changeAction, this, 1, 0);
+    this.buttonGroup.add(addPointsButton);
+    var removePointsButton = this.game.add.button(694, 646, 'remove-point', this.changeAction, this, 1, 0);
+    this.buttonGroup.add(removePointsButton);
+    this.game.add.button(891, 641, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
@@ -45,16 +44,16 @@ Editor.prototype = {
 
     switch (buttonIndex) {
       case 0:
-        this.mapView.events.onInputDown.add(this.addPoint, this);
-        break;
-      case 1:
-        this.mapView.toggleInputOnPointViews(true);
-        break;
-      case 2:
         this.mapView.events.onInputDown.add(this.addStartPoint, this);
         break;
-      case 3:
+      case 1:
         this.mapView.events.onInputDown.add(this.addEndPoint, this);
+        break;
+      case 2:
+        this.mapView.events.onInputDown.add(this.addPoint, this);
+        break;
+      case 3:
+        this.mapView.toggleInputOnPointViews(true);
         break;
       default:
         console.log('Invalid button index encountered, how the heck did that happen?');
@@ -102,10 +101,9 @@ Editor.prototype = {
     return Math.floor(scaleCorrectedNumber);
   },
   addFileInputListener: function() {
-    var fileInput = window.document.getElementById('input');
     var sprite = this.mapView;
     var gameData = this.game.data;
-    fileInput.addEventListener('change', function handleFiles(files) {
+    this.fileInput.addEventListener('change', function handleFiles(files) {
       var image = new Image();
       image.onload = function addImageToSprite() {
         sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
