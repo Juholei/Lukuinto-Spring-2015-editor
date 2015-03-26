@@ -37,7 +37,6 @@ FileInputHandler.prototype.addFileInputListener = function(sprite, gameDataObjec
       console.log('Image loaded');
       sprite.width = oldWidth;
       sprite.height = oldHeight;
-      // URL.revokeObjectURL(image.src);
       gameDataObject.image = image.src;
     };
     image.src = URL.createObjectURL(files.target.files[0]);

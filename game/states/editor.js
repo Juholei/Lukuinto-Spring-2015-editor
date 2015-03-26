@@ -74,9 +74,9 @@ Editor.prototype = {
   removePoint: function(pointView) {
     var indexToRemove = this.game.data.points.indexOf(pointView.pointData);
     this.game.data.points.splice(indexToRemove, 1);
-    pointView.destroy();
     this.mapView.updatePointViews();
     this.updatePreviewText();
+    pointView.kill();
   },
   addStartPoint: function(sprite, pointer) {
     this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
