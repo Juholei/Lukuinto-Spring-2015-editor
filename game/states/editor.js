@@ -2,39 +2,24 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
+var FileInputHandler = require('../fileinputhandler');
 
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.addFileInput();
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
+    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+    this.fileInputHandler = new FileInputHandler(25, 50, parentDiv);
     this.addFileInputListener();
   },
   update: function() {
   },
   shutdown: function() {
-    this.fileInput.parentNode.removeChild(this.fileInput);
-  },
-  addFileInput: function() {
-    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-    var fileInputDiv = document.createElement('div');
-    fileInputDiv.className = 'image-upload';
-    var label = document.createElement('label');
-    label.htmlFor = 'file-input';
-    this.fileInput = document.createElement('input');
-    this.fileInput.type = 'file';
-    this.fileInput.id = 'file-input';
-    var image = document.createElement('img');
-    image.src = 'assets/lisaa_kuva.png';
-    image.className = 'clip pos-1';
-    label.appendChild(image);
-    fileInputDiv.appendChild(label);
-    fileInputDiv.appendChild(this.fileInput);
-    parentDiv.appendChild(fileInputDiv);
+    this.fileInputHandler.remove();
   },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
@@ -118,7 +103,7 @@ Editor.prototype = {
   addFileInputListener: function() {
     var sprite = this.mapView;
     var gameData = this.game.data;
-    this.fileInput.addEventListener('change', function handleFiles(files) {
+    this.fileInputHandler.fileInput.addEventListener('change', function handleFiles(files) {
       var image = new Image();
       image.onload = function addImageToSprite() {
         sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
