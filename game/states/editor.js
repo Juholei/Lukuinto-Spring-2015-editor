@@ -2,24 +2,24 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
+var FileInputHandler = require('../fileinputhandler');
 
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.fileInput = document.createElement('input');
-    this.fileInput.type = 'file';
-    document.body.appendChild(this.fileInput);
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
-    this.addFileInputListener();
+    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+    this.fileInputHandler = new FileInputHandler(25, 50, parentDiv);
+    this.fileInputHandler.addFileInputListener(this.mapView.displayImage, this.game.data);
   },
   update: function() {
   },
   shutdown: function() {
-    this.fileInput.parentNode.removeChild(this.fileInput);
+    this.fileInputHandler.remove();
   },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
@@ -74,9 +74,9 @@ Editor.prototype = {
   removePoint: function(pointView) {
     var indexToRemove = this.game.data.points.indexOf(pointView.pointData);
     this.game.data.points.splice(indexToRemove, 1);
-    pointView.destroy();
     this.mapView.updatePointViews();
     this.updatePreviewText();
+    pointView.kill();
   },
   addStartPoint: function(sprite, pointer) {
     this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
@@ -99,22 +99,6 @@ Editor.prototype = {
   scaleUp: function(number) {
     var scaleCorrectedNumber = (number / 3) * 4;
     return Math.floor(scaleCorrectedNumber);
-  },
-  addFileInputListener: function() {
-    var sprite = this.mapView;
-    var gameData = this.game.data;
-    this.fileInput.addEventListener('change', function handleFiles(files) {
-      var image = new Image();
-      image.onload = function addImageToSprite() {
-        sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-        console.log('Image loaded');
-        sprite.displayImage.width = 1024;
-        sprite.displayImage.height = 768;
-        // URL.revokeObjectURL(image.src);
-        gameData.image = image.src;
-      };
-      image.src = URL.createObjectURL(files.target.files[0]);
-    }, false);
   },
   moveToNextState: function() {
     this.game.state.start('phase2');

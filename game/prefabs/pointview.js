@@ -1,7 +1,7 @@
 'use strict';
 
 var PointView = function(game, pointData, pointDataArray, callback, callbackContext) {
-  Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext);
+  Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext, 1, 0);
   this.pointData = pointData;
   this.pointDataArray = pointDataArray;
   this.anchor.setTo(0.5, 0.5);
