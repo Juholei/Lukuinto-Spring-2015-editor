@@ -12,7 +12,7 @@ Phase2.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
-    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.previousStateButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
   },
   update: function() {
     // state update code
@@ -28,16 +28,19 @@ Phase2.prototype = {
     // (i.e. you switch to another state from this one).
   },
   pointViewCallback: function(pointView) {
+    var self = this;
     var closingCallback = function() {
       this.frame = 0;
       this.freezeFrames = false;
       this.parent.parent.toggleInputOnPointViews(true);
+      self.previousStateButton.inputEnabled = true;
     }.bind(pointView);
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
+    this.previousStateButton.inputEnabled = false;
   },
   moveToPreviousState: function() {
     this.game.state.start('editor');

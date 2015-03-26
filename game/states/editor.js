@@ -9,6 +9,7 @@ Editor.prototype = {
   create: function() {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
+    this.mapView.toggleInputOnPointViews(false);
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();

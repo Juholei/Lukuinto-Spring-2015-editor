@@ -25,7 +25,6 @@ MapView.prototype.constructor = MapView;
 
 MapView.prototype.update = function() {
   this.pointViewSprites.forEachDead(function(pointView) {
-    console.log('Destroying ' + pointView);
     pointView.destroy();
   });
 };
