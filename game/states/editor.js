@@ -14,7 +14,7 @@ Editor.prototype = {
     this.addButtons();
     var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
     this.fileInputHandler = new FileInputHandler(25, 50, parentDiv);
-    this.addFileInputListener();
+    this.fileInputHandler.addFileInputListener(this.mapView.displayImage, this.game.data);
   },
   update: function() {
   },
@@ -100,22 +100,22 @@ Editor.prototype = {
     var scaleCorrectedNumber = (number / 3) * 4;
     return Math.floor(scaleCorrectedNumber);
   },
-  addFileInputListener: function() {
-    var sprite = this.mapView;
-    var gameData = this.game.data;
-    this.fileInputHandler.fileInput.addEventListener('change', function handleFiles(files) {
-      var image = new Image();
-      image.onload = function addImageToSprite() {
-        sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-        console.log('Image loaded');
-        sprite.displayImage.width = 1024;
-        sprite.displayImage.height = 768;
-        // URL.revokeObjectURL(image.src);
-        gameData.image = image.src;
-      };
-      image.src = URL.createObjectURL(files.target.files[0]);
-    }, false);
-  },
+  // addFileInputListener: function() {
+  //   var sprite = this.mapView;
+  //   var gameData = this.game.data;
+  //   this.fileInputHandler.fileInput.addEventListener('change', function handleFiles(files) {
+  //     var image = new Image();
+  //     image.onload = function addImageToSprite() {
+  //       sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
+  //       console.log('Image loaded');
+  //       sprite.displayImage.width = 1024;
+  //       sprite.displayImage.height = 768;
+  //       // URL.revokeObjectURL(image.src);
+  //       gameData.image = image.src;
+  //     };
+  //     image.src = URL.createObjectURL(files.target.files[0]);
+  //   }, false);
+  // },
   moveToNextState: function() {
     this.game.state.start('phase2');
   }

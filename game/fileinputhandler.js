@@ -27,6 +27,23 @@ FileInputHandler.prototype.addLabelImage = function() {
   this.fileInputDiv.appendChild(label);
 };
 
+FileInputHandler.prototype.addFileInputListener = function(sprite, gameDataObject) {
+  this.fileInput.addEventListener('change', function handleFiles(files) {
+    var image = new Image();
+    image.onload = function addImageToSprite() {
+      var oldWidth = sprite.width;
+      var oldHeight = sprite.height;
+      sprite.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
+      console.log('Image loaded');
+      sprite.width = oldWidth;
+      sprite.height = oldHeight;
+      // URL.revokeObjectURL(image.src);
+      gameDataObject.image = image.src;
+    };
+    image.src = URL.createObjectURL(files.target.files[0]);
+  }, false);
+};
+
 FileInputHandler.prototype.remove = function() {
   this.fileInputDiv.parentNode.removeChild(this.fileInputDiv);
 };
