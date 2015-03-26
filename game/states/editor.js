@@ -6,9 +6,7 @@ var MapView = require('../prefabs/mapview');
 function Editor() {}
 Editor.prototype = {
   create: function() {
-    this.fileInput = document.createElement('input');
-    this.fileInput.type = 'file';
-    document.body.appendChild(this.fileInput);
+    this.addFileInput();
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
     this.game.add.existing(this.mapView);
@@ -20,6 +18,23 @@ Editor.prototype = {
   },
   shutdown: function() {
     this.fileInput.parentNode.removeChild(this.fileInput);
+  },
+  addFileInput: function() {
+    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+    var fileInputDiv = document.createElement('div');
+    fileInputDiv.className = 'image-upload';
+    var label = document.createElement('label');
+    label.htmlFor = 'file-input';
+    this.fileInput = document.createElement('input');
+    this.fileInput.type = 'file';
+    this.fileInput.id = 'file-input';
+    var image = document.createElement('img');
+    image.src = 'assets/lisaa_kuva.png';
+    image.className = 'clip pos-1';
+    label.appendChild(image);
+    fileInputDiv.appendChild(label);
+    fileInputDiv.appendChild(this.fileInput);
+    parentDiv.appendChild(fileInputDiv);
   },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);

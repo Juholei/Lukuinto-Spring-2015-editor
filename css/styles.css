@@ -47,14 +47,18 @@ body {
 
 .image-upload {
   position: absolute;
+  top: 50px;
+  left: 25px;
 }
 
 .image-upload > input {
-    display: none;
+  display: none;
 }
 
 .clip {
-  position: absolute; top: 0; left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .pos-1 {
