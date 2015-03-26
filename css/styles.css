@@ -44,3 +44,24 @@ body {
   font-size: 16px;
   font-family: Arial, sans-serif;
 }
+
+.image-upload {
+  position: absolute;
+}
+
+.image-upload > input {
+    display: none;
+}
+
+.clip {
+  position: absolute; top: 0; left: 0;
+}
+
+.pos-1 {
+  clip:rect(5px 42px 35px 0px);
+}
+
+.clip:hover {
+  clip:rect(5px 91px 35px 43px);
+  left: -48px;
+}
