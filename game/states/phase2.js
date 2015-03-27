@@ -12,7 +12,7 @@ Phase2.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
-    this.previousStateButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
   },
   //When PointView inside MapView is clicked, this is called.
   //Disables input on all the buttons that are in this state.
@@ -24,14 +24,14 @@ Phase2.prototype = {
       pointView.frame = 0;
       pointView.freezeFrames = false;
       self.mapView.toggleInputOnPointViews(true);
-      self.previousStateButton.inputEnabled = true;
+      self.backButton.inputEnabled = true;
     };
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
-    this.previousStateButton.inputEnabled = false;
+    this.backButton.inputEnabled = false;
   },
   moveToPreviousState: function() {
     this.game.state.start('editor');
