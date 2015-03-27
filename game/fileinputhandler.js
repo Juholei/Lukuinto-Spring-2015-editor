@@ -1,4 +1,5 @@
 'use strict';
+var loadImageToSprite = require('./imageloader');
 
 //Creates HTML input with type file and a div that is
 //used as the graphical representation of the input instead
@@ -36,17 +37,8 @@ FileInputHandler.prototype.addLabelImage = function() {
 //put in gameDataObject for later use.
 FileInputHandler.prototype.addFileInputListener = function(sprite, gameDataObject) {
   this.fileInput.addEventListener('change', function handleFiles(files) {
-    var image = new Image();
-    image.onload = function addImageToSprite() {
-      var oldWidth = sprite.width;
-      var oldHeight = sprite.height;
-      sprite.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-      console.log('Image loaded');
-      sprite.width = oldWidth;
-      sprite.height = oldHeight;
-      gameDataObject.image = image.src;
-    };
-    image.src = URL.createObjectURL(files.target.files[0]);
+    gameDataObject.image = URL.createObjectURL(files.target.files[0]);
+    loadImageToSprite(sprite, gameDataObject.image);
   }, false);
 };
 

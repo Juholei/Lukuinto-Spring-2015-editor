@@ -1,6 +1,7 @@
 'use strict';
 var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
+var loadImageToSprite = require('../imageloader');
 
 //Represents the game area in the editor.
 //pointViewCallback is set as callbacks for PointView objects that are created here
@@ -23,7 +24,7 @@ var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
   this.startPointViewSprite = this.initializeMajorPointView(this.game.data.startPoint, 0);
   this.endPointViewSprite = this.initializeMajorPointView(this.game.data.endPoint, 1);
   this.initializePointViewsFromGameData(pointViewCallback, pointViewCallbackContext);
-  this.loadBackgroundImage();
+  loadImageToSprite(this.displayImage, this.game.data.image);
 };
 
 MapView.prototype = Object.create(Phaser.Image.prototype);
@@ -81,20 +82,6 @@ MapView.prototype.initializeMajorPointView = function(data, frame) {
     this.addChild(view);
   }
   return view;
-};
-
-MapView.prototype.loadBackgroundImage = function() {
-  if (this.game.data.image !== undefined) {
-    var image = new Image();
-    var sprite = this;
-    image.onload = function addImageToSprite() {
-      sprite.displayImage.loadTexture(new PIXI.Texture(new PIXI.BaseTexture(image, PIXI.scaleModes.DEFAULT)));
-      console.log('Image loaded');
-      sprite.displayImage.width = 1024;
-      sprite.displayImage.height = 768;
-    };
-    image.src = this.game.data.image;
-  }
 };
 
 module.exports = MapView;

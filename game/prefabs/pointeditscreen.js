@@ -2,6 +2,7 @@
 var LabeledButton = require('../prefabs/labeledbutton');
 var GameDataCreator = require('../gamedatacreator');
 var FileInputHandler = require('../fileinputhandler');
+var loadImageToSprite = require('../imageloader');
 
 //Helper class to keep related DOM input elements together
 function AnswerInput(answerTextInput, answerCheckboxInput) {
@@ -14,21 +15,20 @@ function AnswerInput(answerTextInput, answerCheckboxInput) {
 //for input.
 var PointEditScreen = function(game, pointData, closingCallback) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
-  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-  this.fileInputHandler = new FileInputHandler(this.x + 20, 590, parentDiv);
   this.pointData = pointData;
+  this.imageInfo = {image: ''};
   this.answerInputs = [];
+  this.previewFrame = this.game.add.sprite(-576, 0);
+  this.addChild(this.previewFrame);
+  this.previewFrame.width = 576;
+  this.previewFrame.height = 360;
   this.closingCallback = closingCallback;
   this.addTitleText();
   this.addAnswerOptionsText();
   this.addQuestionInput();
   this.addTaskSelectionBox();
   this.addAnswerInputs();
-  var previewFrame = this.game.add.sprite(-576, 0);
-  this.addChild(previewFrame);
-  previewFrame.width = 576;
-  previewFrame.height = 360;
-  this.fileInputHandler.addFileInputListener(previewFrame, this.pointData);
+  this.addFileInputHandler();
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
@@ -67,10 +67,6 @@ PointEditScreen.prototype.addQuestionInput = function() {
   parentDiv.appendChild(this.questionInput);
 };
 
-PointEditScreen.prototype.fillQuestionInput = function(taskIndex) {
-  this.questionInput.value = this.pointData.tasks[taskIndex].question;
-};
-
 //Add DOM textinputs on top of the canvas for inputting question answers
 //and checkboxes for marking the answers correct or incorrect.
 PointEditScreen.prototype.addAnswerInputs = function() {
@@ -88,15 +84,6 @@ PointEditScreen.prototype.addAnswerInputs = function() {
 
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
-  }
-};
-
-PointEditScreen.prototype.fillAnswerInputs = function(taskIndex) {
-  for (var i = 0; i < this.answerInputs.length; i++) {
-    var answerTextInput = this.answerInputs[i].answerTextInput;
-    var answerCheckboxInput = this.answerInputs[i].answerCheckboxInput;
-    answerTextInput.value = this.pointData.tasks[taskIndex].answers[i].text;
-    answerCheckboxInput.checked = this.pointData.tasks[taskIndex].answers[i].isCorrect;
   }
 };
 
@@ -143,8 +130,32 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
     console.log(this.value);
     self.fillQuestionInput(this.value);
     self.fillAnswerInputs(this.value);
+    self.addImagePreview(this.value);
   };
   parentDiv.appendChild(this.taskSelector);
+};
+
+PointEditScreen.prototype.fillQuestionInput = function(taskIndex) {
+  this.questionInput.value = this.pointData.tasks[taskIndex].question;
+};
+
+PointEditScreen.prototype.fillAnswerInputs = function(taskIndex) {
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    var answerTextInput = this.answerInputs[i].answerTextInput;
+    var answerCheckboxInput = this.answerInputs[i].answerCheckboxInput;
+    answerTextInput.value = this.pointData.tasks[taskIndex].answers[i].text;
+    answerCheckboxInput.checked = this.pointData.tasks[taskIndex].answers[i].isCorrect;
+  }
+};
+
+PointEditScreen.prototype.addImagePreview = function(taskIndex) {
+  loadImageToSprite(this.previewFrame, this.pointData.tasks[taskIndex].image);
+};
+
+PointEditScreen.prototype.addFileInputHandler = function() {
+  var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  this.fileInputHandler = new FileInputHandler(this.x + 20, 590, parentDiv);
+  this.fileInputHandler.addFileInputListener(this.previewFrame, this.imageInfo);
 };
 
 //Take the values from DOM inputs and save them to GameData.
@@ -158,6 +169,10 @@ PointEditScreen.prototype.confirmListener = function() {
     var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
     var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
     task.answers.push(answer);
+  }
+  if (this.imageInfo.image !== '') {
+    task.image = this.imageInfo.image;
+    console.log(this.imageInfo.image);
   }
   if (this.taskSelector.value !== '') {
     this.pointData.tasks[this.taskSelector.value] = task;
