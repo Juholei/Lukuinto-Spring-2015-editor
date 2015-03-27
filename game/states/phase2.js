@@ -12,35 +12,26 @@ Phase2.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
-    this.previousStateButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
   },
-  update: function() {
-    // state update code
-  },
-  paused: function() {
-    // This method will be called when game paused.
-  },
-  render: function() {
-    // Put render operations here.
-  },
-  shutdown: function() {
-    // This method will be called when the state is shut down
-    // (i.e. you switch to another state from this one).
-  },
+  //When PointView inside MapView is clicked, this is called.
+  //Disables input on all the buttons that are in this state.
+  //closingCallback is given to PointEditScreen as callback that is executed when PointEditScreen
+  //is closing. closingCallback then restores the input on the objects of this state.
   pointViewCallback: function(pointView) {
     var self = this;
     var closingCallback = function() {
-      this.frame = 0;
-      this.freezeFrames = false;
-      this.parent.parent.toggleInputOnPointViews(true);
-      self.previousStateButton.inputEnabled = true;
-    }.bind(pointView);
+      pointView.frame = 0;
+      pointView.freezeFrames = false;
+      self.mapView.toggleInputOnPointViews(true);
+      self.backButton.inputEnabled = true;
+    };
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
-    this.previousStateButton.inputEnabled = false;
+    this.backButton.inputEnabled = false;
   },
   moveToPreviousState: function() {
     this.game.state.start('editor');
