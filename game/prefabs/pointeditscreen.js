@@ -28,7 +28,7 @@ var PointEditScreen = function(game, pointData, closingCallback) {
 
   var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
   this.addChild(confirmButton);
-  var exitButton = game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0);
+  var exitButton = this.game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0);
   this.addChild(exitButton);
 };
 
@@ -47,8 +47,11 @@ PointEditScreen.prototype.addTitleText = function() {
 PointEditScreen.prototype.addAnswerOptionsText = function() {
   var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
   var answerOptionsText = this.game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  var isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
   this.addChild(answerOptionsText);
+  this.addChild(isCorrectText);
 };
+
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
@@ -72,7 +75,7 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     var textY = this.y + 335 + i * margin;
     var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
 
-    var checkboxX = this.x + 363;
+    var checkboxX = this.x + 350;
     var checkboxY = this.y + 335 + i * margin;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
 
