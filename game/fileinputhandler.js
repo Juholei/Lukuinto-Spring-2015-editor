@@ -1,5 +1,8 @@
 'use strict';
 
+//Creates HTML input with type file and a div that is
+//used as the graphical representation of the input instead
+//of the default browser style button.
 var FileInputHandler = function(x, y, parentDiv) {
   this.fileInputDiv = document.createElement('div');
   this.fileInputDiv.className = 'image-upload';
@@ -17,6 +20,7 @@ var FileInputHandler = function(x, y, parentDiv) {
 
 FileInputHandler.prototype.constructor = FileInputHandler;
 
+//Adds image as a label for the input element
 FileInputHandler.prototype.addLabelImage = function() {
   var label = document.createElement('label');
   label.htmlFor = 'file-input';
@@ -27,6 +31,9 @@ FileInputHandler.prototype.addLabelImage = function() {
   this.fileInputDiv.appendChild(label);
 };
 
+//Adds an event listener to the fileinput object. The image selected
+//from the input is set to the parameter sprite. ObjectURL of the image is
+//put in gameDataObject for later use.
 FileInputHandler.prototype.addFileInputListener = function(sprite, gameDataObject) {
   this.fileInput.addEventListener('change', function handleFiles(files) {
     var image = new Image();

@@ -3,11 +3,15 @@ var LabeledButton = require('../prefabs/labeledbutton');
 var GameDataCreator = require('../gamedatacreator');
 var FileInputHandler = require('../fileinputhandler');
 
+//Helper class to keep related DOM input elements together
 function AnswerInput(answerTextInput, answerCheckboxInput) {
   this.answerTextInput = answerTextInput;
   this. answerCheckboxInput = answerCheckboxInput;
 }
 
+//Represents a UI window that is used to edit GamePoint information
+//Uses Phaser objects for graphics and buttons and DOM elements
+//for input.
 var PointEditScreen = function(game, pointData, closingCallback) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
@@ -52,6 +56,7 @@ PointEditScreen.prototype.addAnswerOptionsText = function() {
   this.addChild(isCorrectText);
 };
 
+//Add DOM textarea on top of the canvas for inputting question text
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
@@ -66,6 +71,8 @@ PointEditScreen.prototype.fillQuestionInput = function(taskIndex) {
   this.questionInput.value = this.pointData.tasks[taskIndex].question;
 };
 
+//Add DOM textinputs on top of the canvas for inputting question answers
+//and checkboxes for marking the answers correct or incorrect.
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   var margin = 50;
@@ -140,6 +147,8 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
   parentDiv.appendChild(this.taskSelector);
 };
 
+//Take the values from DOM inputs and save them to GameData.
+//Then close this screen.
 PointEditScreen.prototype.confirmListener = function() {
   var task = new GameDataCreator.Task();
   task.question = this.questionInput.value;
@@ -159,6 +168,7 @@ PointEditScreen.prototype.confirmListener = function() {
   this.closeScreen();
 };
 
+//Remove all DOM elements and then destroy the object.
 PointEditScreen.prototype.closeScreen = function() {
   this.questionInput.parentNode.removeChild(this.questionInput);
   this.answerInputs.forEach(function removeElement(object) {
@@ -175,4 +185,5 @@ PointEditScreen.prototype.updatePreviewText = function() {
   var textArea = window.document.getElementById('outputJSON');
   textArea.value = JSON.stringify(this.game.data, null, 2);
 };
+
 module.exports = PointEditScreen;

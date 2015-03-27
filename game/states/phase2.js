@@ -14,19 +14,11 @@ Phase2.prototype = {
     this.game.add.existing(this.mapView);
     this.previousStateButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
   },
-  update: function() {
-    // state update code
-  },
-  paused: function() {
-    // This method will be called when game paused.
-  },
-  render: function() {
-    // Put render operations here.
-  },
-  shutdown: function() {
-    // This method will be called when the state is shut down
-    // (i.e. you switch to another state from this one).
-  },
+  //When PointView inside MapView is clicked, this is called.
+  //Disables input on all the buttons that are in this state.
+  //closingCallback function is bound to the context of the PointView object that was clicked.
+  //closingCallback is then given to PointEditScreen as callback that is executed when PointEditScreen
+  //is closing. closingCallback then restores the input on the objects of this state.
   pointViewCallback: function(pointView) {
     var self = this;
     var closingCallback = function() {

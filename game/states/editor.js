@@ -4,6 +4,7 @@ var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
 var FileInputHandler = require('../fileinputhandler');
 
+//State for setting GamePoints and MajorPoints on the game map.
 function Editor() {}
 Editor.prototype = {
   create: function() {
@@ -33,6 +34,7 @@ Editor.prototype = {
     this.buttonGroup.add(removePointsButton);
     this.game.add.button(891, 641, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
+  //Changes the current action that happens on click based on the button that has been pressed.
   changeAction: function(button) {
     this.buttonGroup.setAll('frame', 0);
     this.buttonGroup.setAll('freezeFrames', false);

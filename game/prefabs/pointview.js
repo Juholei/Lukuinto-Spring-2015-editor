@@ -1,5 +1,6 @@
 'use strict';
 
+//Graphical representation of GamePoint gamedata object.
 var PointView = function(game, pointData, pointDataArray, callback, callbackContext) {
   Phaser.Button.call(this, game, pointData.x, pointData.y, 'point', callback, callbackContext, 1, 0);
   this.pointData = pointData;
