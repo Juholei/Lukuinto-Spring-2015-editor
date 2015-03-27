@@ -16,17 +16,16 @@ Phase2.prototype = {
   },
   //When PointView inside MapView is clicked, this is called.
   //Disables input on all the buttons that are in this state.
-  //closingCallback function is bound to the context of the PointView object that was clicked.
-  //closingCallback is then given to PointEditScreen as callback that is executed when PointEditScreen
+  //closingCallback is given to PointEditScreen as callback that is executed when PointEditScreen
   //is closing. closingCallback then restores the input on the objects of this state.
   pointViewCallback: function(pointView) {
     var self = this;
     var closingCallback = function() {
-      this.frame = 0;
-      this.freezeFrames = false;
-      this.parent.parent.toggleInputOnPointViews(true);
+      pointView.frame = 0;
+      pointView.freezeFrames = false;
+      self.mapView.toggleInputOnPointViews(true);
       self.previousStateButton.inputEnabled = true;
-    }.bind(pointView);
+    };
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
