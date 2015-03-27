@@ -24,9 +24,6 @@ MapView.prototype = Object.create(Phaser.Image.prototype);
 MapView.prototype.constructor = MapView;
 
 MapView.prototype.update = function() {
-  this.pointViewSprites.forEachDead(function(pointView) {
-    pointView.destroy();
-  });
 };
 
 MapView.prototype.updateStartPoint = function() {

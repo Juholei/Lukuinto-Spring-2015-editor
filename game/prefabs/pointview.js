@@ -15,7 +15,11 @@ var PointView = function(game, pointData, pointDataArray, callback, callbackCont
 PointView.prototype = Object.create(Phaser.Button.prototype);
 PointView.prototype.constructor = PointView;
 
-PointView.prototype.update = function() {};
+PointView.prototype.update = function() {
+  if (!this.alive) {
+    this.destroy();
+  }
+};
 
 PointView.prototype.updateIndexText = function() {
   var index = this.pointDataArray.indexOf(this.pointData);
