@@ -17,30 +17,37 @@ function AnswerInput(answerTextInput, answerCheckboxInput) {
 var PointEditScreen = function(game, pointData, closingCallback) {
   Phaser.Image.call(this, game, 600, 50, 'point-edit-screen');
   this.pointData = pointData;
+  this.closingCallback = closingCallback;
   this.imageInfo = {image: ''};
   this.answerInputs = [];
-  this.previewFrame = this.game.add.sprite(-576, 0);
-  this.addChild(this.previewFrame);
-  this.previewFrame.width = 576;
-  this.previewFrame.height = 360;
-  this.closingCallback = closingCallback;
+  this.addPreviewFrame();
   this.addTitleText();
   this.addAnswerOptionsText();
   this.addQuestionInput();
   this.addTaskSelectionBox();
   this.addAnswerInputs();
   this.addFileInputHandler();
-
-  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
-  this.addChild(confirmButton);
-  var exitButton = this.game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
-  this.addChild(exitButton);
+  this.addButtons();
 };
 
 PointEditScreen.prototype = Object.create(Phaser.Image.prototype);
 PointEditScreen.prototype.constructor = PointEditScreen;
 
 PointEditScreen.prototype.update = function() {
+};
+
+PointEditScreen.prototype.addButtons = function() {
+  var confirmButton = new LabeledButton(this.game, 330, 565, 'Hyväksy', this.confirmListener, this);
+  this.addChild(confirmButton);
+  var exitButton = this.game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
+  this.addChild(exitButton);
+};
+
+PointEditScreen.prototype.addPreviewFrame = function() {
+  this.previewFrame = this.game.add.sprite(-576, 0);
+  this.addChild(this.previewFrame);
+  this.previewFrame.width = 576;
+  this.previewFrame.height = 360;
 };
 
 PointEditScreen.prototype.addTitleText = function() {
