@@ -3,6 +3,7 @@ var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
 var FileInputHandler = require('../fileinputhandler');
+var Constants = require('../constants');
 
 //State for setting GamePoints and MajorPoints on the game map.
 function Editor() {}
@@ -66,9 +67,9 @@ Editor.prototype = {
     if (sprite.withinBounds(pointer)) {
       var x = this.scaleUp(pointer.x - this.mapView.x);
       var y = this.scaleUp(pointer.y - this.mapView.y);
-      var newPoint = new GameDataCreator.GamePoint(x, y, 'unvisited');
+      var newPoint = new GameDataCreator.GamePoint(x, y, Constants.pointStates.UNVISITED);
       if (this.game.data.points.length === 0) {
-        newPoint.state = 'next';
+        newPoint.state = Constants.pointStates.NEXT;
       }
       this.game.data.points.push(newPoint);
       var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
