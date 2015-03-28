@@ -84,4 +84,13 @@ MapView.prototype.initializeMajorPointView = function(data, frame) {
   return view;
 };
 
+MapView.prototype.withinBounds = function(pointer) {
+  if (pointer.x > this.x && pointer.x < (this.x + this.displayImage.width * 0.75)) {
+    if (pointer.y > this.y && pointer.y < (this.y + this.displayImage.height * 0.75)) {
+      return true;
+    }
+  }
+  return false;
+};
+
 module.exports = MapView;

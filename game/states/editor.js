@@ -63,16 +63,18 @@ Editor.prototype = {
     }
   },
   addPoint: function(sprite, pointer) {
-    var x = this.scaleUp(pointer.x - this.mapView.x);
-    var y = this.scaleUp(pointer.y - this.mapView.y);
-    var newPoint = new GameDataCreator.GamePoint(x, y, 'unvisited');
-    if (this.game.data.points.length === 0) {
-      newPoint.state = 'next';
+    if (sprite.withinBounds(pointer)) {
+      var x = this.scaleUp(pointer.x - this.mapView.x);
+      var y = this.scaleUp(pointer.y - this.mapView.y);
+      var newPoint = new GameDataCreator.GamePoint(x, y, 'unvisited');
+      if (this.game.data.points.length === 0) {
+        newPoint.state = 'next';
+      }
+      this.game.data.points.push(newPoint);
+      var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
+      this.mapView.addPointView(pointSprite);
+      this.updatePreviewText();
     }
-    this.game.data.points.push(newPoint);
-    var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
-    this.mapView.addPointView(pointSprite);
-    this.updatePreviewText();
   },
   removePoint: function(pointView) {
     var indexToRemove = this.game.data.points.indexOf(pointView.pointData);
@@ -82,16 +84,20 @@ Editor.prototype = {
     pointView.kill();
   },
   addStartPoint: function(sprite, pointer) {
-    this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
-    this.game.data.startPoint.y = this.scaleUp(pointer.y - this.mapView.y);
-    this.mapView.updateStartPoint();
-    this.updatePreviewText();
+    if (sprite.withinBounds(pointer)) {
+      this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
+      this.game.data.startPoint.y = this.scaleUp(pointer.y - this.mapView.y);
+      this.mapView.updateStartPoint();
+      this.updatePreviewText();
+    }
   },
   addEndPoint: function(sprite, pointer) {
-    this.game.data.endPoint.x = this.scaleUp(pointer.x - this.mapView.x);
-    this.game.data.endPoint.y = this.scaleUp(pointer.y - this.mapView.y);
-    this.mapView.updateEndPoint();
-    this.updatePreviewText();
+    if (sprite.withinBounds(pointer)) {
+      this.game.data.endPoint.x = this.scaleUp(pointer.x - this.mapView.x);
+      this.game.data.endPoint.y = this.scaleUp(pointer.y - this.mapView.y);
+      this.mapView.updateEndPoint();
+      this.updatePreviewText();
+    }
   },
   updatePreviewText: function() {
     var textArea = window.document.getElementById('outputJSON');
