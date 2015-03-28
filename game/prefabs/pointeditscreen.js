@@ -3,6 +3,7 @@ var LabeledButton = require('../prefabs/labeledbutton');
 var GameDataCreator = require('../gamedatacreator');
 var FileInputHandler = require('../fileinputhandler');
 var loadImageToSprite = require('../imageloader');
+var Constants = require('../constants');
 
 //Helper class to keep related DOM input elements together
 function AnswerInput(answerTextInput, answerCheckboxInput) {
@@ -62,8 +63,8 @@ PointEditScreen.prototype.addQuestionInput = function() {
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.questionInput.style.left = (this.x + 21) + 'px';
-  this.questionInput.style.top = (this.y + 66) + 'px';
+  this.questionInput.style.left = (this.x + Constants.HTML.QUESTION_INPUT_X) + 'px';
+  this.questionInput.style.top = (this.y + Constants.HTML.QUESTION_INPUT_Y) + 'px';
   parentDiv.appendChild(this.questionInput);
 };
 
@@ -71,15 +72,14 @@ PointEditScreen.prototype.addQuestionInput = function() {
 //and checkboxes for marking the answers correct or incorrect.
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-  var margin = 50;
 
   for (var i = 0; i < 4; i++) {
-    var textX = this.x + 20;
-    var textY = this.y + 335 + i * margin;
+    var textX = this.x + Constants.HTML.ANSWER_INPUT_X;
+    var textY = this.y + Constants.HTML.ANSWER_INPUT_Y + i * Constants.HTML.MARGIN;
     var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
 
-    var checkboxX = this.x + 350;
-    var checkboxY = this.y + 335 + i * margin;
+    var checkboxX = this.x + Constants.HTML.CHECKBOX_X;
+    var checkboxY = this.y + Constants.HTML.CHECKBOX_Y + i * Constants.HTML.MARGIN;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
 
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
@@ -115,8 +115,8 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
   this.taskSelector = document.createElement('select');
   this.taskSelector.className = 'taskSelection';
   this.taskSelector.setAttribute('size', 10);
-  this.taskSelector.style.left = (this.x + 21 + 226) + 'px';
-  this.taskSelector.style.top = (this.y + 66) + 'px';
+  this.taskSelector.style.left = (this.x + Constants.HTML.TASKSELECTOR_X) + 'px';
+  this.taskSelector.style.top = (this.y + Constants.HTML.QUESTION_INPUT_Y) + 'px';
 
   for (var i = 0; i < this.pointData.tasks.length; i++) {
     var option = document.createElement('option');
