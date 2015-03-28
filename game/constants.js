@@ -3,6 +3,7 @@ var Constants = {
     UNVISITED: 'unvisited',  //Not visited yet and not reachable
     NEXT: 'next'             //Next Point where you can go
   },
+  MAPVIEW_SCALE: 0.75,
   POINTVIEW_WIDTH: 44,
   HTML: {
     MARGIN: 50,
