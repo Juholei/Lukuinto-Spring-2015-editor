@@ -2,6 +2,7 @@
 var PointView = require('../prefabs/pointview');
 var MajorPointView = require('../prefabs/majorpointview');
 var loadImageToSprite = require('../imageloader');
+var Constants = require('../constants');
 
 //Represents the game area in the editor.
 //pointViewCallback is set as callbacks for PointView objects that are created here
@@ -13,7 +14,7 @@ var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
   Phaser.Image.call(this, game, 128, 30);
   this.width = 1024;
   this.height = 768;
-  this.scale.setTo(0.75, 0.75);
+  this.scale.setTo(Constants.MAPVIEW_SCALE);
   this.inputEnabled = true;
   this.input.priorityID = 0;
   this.displayImage = game.add.image(0, 0, 'background');
@@ -85,8 +86,13 @@ MapView.prototype.initializeMajorPointView = function(data, frame) {
 };
 
 MapView.prototype.withinBounds = function(pointer) {
-  if (pointer.x > this.x && pointer.x < (this.x + this.displayImage.width * 0.75)) {
-    if (pointer.y > this.y && pointer.y < (this.y + this.displayImage.height * 0.75)) {
+  var leftEdge = this.x;
+  var rightEdge = this.x + this.displayImage.width * Constants.MAPVIEW_SCALE;
+  var topEdge = this.y;
+  var bottomEdge = this.y + this.displayImage.height * Constants.MAPVIEW_SCALE;
+
+  if (pointer.x >= leftEdge && pointer.x < rightEdge) {
+    if (pointer.y > topEdge && pointer.y < bottomEdge) {
       return true;
     }
   }
