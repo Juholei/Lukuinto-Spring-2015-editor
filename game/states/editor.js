@@ -2,7 +2,6 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
-var FileInputHandler = require('../fileinputhandler');
 
 //State for setting GamePoints and MajorPoints on the game map.
 function Editor() {}
@@ -14,9 +13,6 @@ Editor.prototype = {
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
-    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-    this.fileInputHandler = new FileInputHandler(25, 50, parentDiv);
-    this.fileInputHandler.addFileInputListener(this.mapView.displayImage, this.game.data);
   },
   update: function() {
   },
