@@ -30,7 +30,9 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addAnswerInputs();
   this.addFileInputHandler();
 
-  var confirmButton = new LabeledButton(game, 330, 565, 'Hyväksy', this.confirmListener, this);
+  var confirmButton = new LabeledButton(game, 346, 571, 'Hyväksy', this.confirmListener, this);
+  confirmButton.width = 117;
+  confirmButton.height = 48;
   this.addChild(confirmButton);
   var exitButton = this.game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
   this.addChild(exitButton);
@@ -44,13 +46,14 @@ PointEditScreen.prototype.update = function() {
 
 PointEditScreen.prototype.addTitleText = function() {
   var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
-  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
+  var titleText = this.game.add.text(205, 37, 'Etapin muokkaus', textStyle);
+  titleText.anchor.setTo(0.5);
   this.addChild(titleText);
 };
 
 PointEditScreen.prototype.addAnswerOptionsText = function() {
   var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
-  var answerOptionsText = this.game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  var answerOptionsText = this.game.add.text(20, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
   var isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
   this.addChild(answerOptionsText);
   this.addChild(isCorrectText);
@@ -62,7 +65,7 @@ PointEditScreen.prototype.addQuestionInput = function() {
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
   this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
-  this.questionInput.style.left = (this.x + 21) + 'px';
+  this.questionInput.style.left = (this.x + 20) + 'px';
   this.questionInput.style.top = (this.y + 66) + 'px';
   parentDiv.appendChild(this.questionInput);
 };
@@ -79,7 +82,7 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
 
     var checkboxX = this.x + 350;
-    var checkboxY = this.y + 335 + i * margin;
+    var checkboxY = this.y + 332 + i * margin;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
 
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
@@ -115,7 +118,7 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
   this.taskSelector = document.createElement('select');
   this.taskSelector.className = 'taskSelection';
   this.taskSelector.setAttribute('size', 10);
-  this.taskSelector.style.left = (this.x + 21 + 226) + 'px';
+  this.taskSelector.style.left = (this.x + 20 + 226) + 'px';
   this.taskSelector.style.top = (this.y + 66) + 'px';
 
   for (var i = 0; i < this.pointData.tasks.length; i++) {

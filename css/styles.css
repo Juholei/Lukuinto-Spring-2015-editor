@@ -32,14 +32,14 @@ body {
 
 .answerCheckboxInput {
   position: absolute;
-  height: 3em;
-  width: 3em;
+  height: 37px;
+  width: 37px;
 }
 
 .taskSelection {
   position: absolute;
   height: 248px;
-  width: 140px;
+  width: 143px;
   border: 3px solid black;
   font-size: 16px;
   font-family: Arial, sans-serif;
