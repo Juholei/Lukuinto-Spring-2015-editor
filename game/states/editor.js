@@ -17,9 +17,6 @@ Editor.prototype = {
   },
   update: function() {
   },
-  shutdown: function() {
-    this.fileInputHandler.remove();
-  },
   addButtons: function() {
     var addStartPointButton = this.game.add.button(162, 649, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addStartPointButton);
