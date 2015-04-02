@@ -26,7 +26,7 @@ FileInputHandler.prototype.addLabelImage = function() {
   var label = document.createElement('label');
   label.htmlFor = 'file-input';
   var image = document.createElement('img');
-  image.src = 'assets/lisaa_kuva.png';
+  image.src = 'assets/lisaa_kuva_painike.png';
   image.className = 'clip pos-1';
   label.appendChild(image);
   this.fileInputDiv.appendChild(label);

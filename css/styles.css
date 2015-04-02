@@ -63,10 +63,10 @@ body {
 }
 
 .pos-1 {
-  clip:rect(5px 43px 35px 0px);
+  clip:rect(5px 162px 67px 0px);
 }
 
 .clip:hover {
-  clip:rect(5px 91px 35px 43px);
-  left: -48px;
+  clip:rect(5px 328px 67px 168px);
+  left: -167px;
 }

@@ -26,6 +26,7 @@ Editor.prototype = {
     this.buttonGroup.add(addPointsButton);
     var removePointsButton = this.game.add.button(708, 649, 'remove-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
+    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
     this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
   //Changes the current action that happens on click based on the button that has been pressed.
@@ -102,6 +103,9 @@ Editor.prototype = {
   scaleUp: function(number) {
     var scaleCorrectedNumber = (number / 3) * 4;
     return Math.floor(scaleCorrectedNumber);
+  },
+  moveToPreviousState: function() {
+    this.game.state.start('backgroundselection');
   },
   moveToNextState: function() {
     this.game.state.start('phase2');
