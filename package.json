@@ -1,5 +1,10 @@
 {
   "name": "Lukuinto-Spring-2015",
+   "version": "0.1",
+  "description": "Lukuinto-Spring-2015-Editor",
+  "author": {
+    "name": "Juholei"
+  },
   "private": true,
   "devDependencies": {
     "bower": "^1.3.12",
