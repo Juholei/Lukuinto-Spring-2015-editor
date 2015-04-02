@@ -2,8 +2,8 @@
 var MapView = require('../prefabs/mapview');
 var PointEditScreen = require('../prefabs/pointeditscreen');
 
-function Phase2() {}
-Phase2.prototype = {
+function TaskEditor() {}
+TaskEditor.prototype = {
   preload: function() {
     // Override this method to add some load operations.
     // If you need to use the loader, you may need to use them here.
@@ -34,7 +34,7 @@ Phase2.prototype = {
     this.backButton.inputEnabled = false;
   },
   moveToPreviousState: function() {
-    this.game.state.start('editor');
+    this.game.state.start('pointeditor');
   }
 };
-module.exports = Phase2;
+module.exports = TaskEditor;

@@ -19,7 +19,7 @@ BackgroundSelection.prototype = {
     this.fileInputHandler.remove();
   },
   moveToNextState: function() {
-    this.game.state.start('editor');
+    this.game.state.start('pointeditor');
   }
 };
 module.exports = BackgroundSelection;

@@ -5,8 +5,8 @@ var MapView = require('../prefabs/mapview');
 var Constants = require('../constants');
 
 //State for setting GamePoints and MajorPoints on the game map.
-function Editor() {}
-Editor.prototype = {
+function PointEditor() {}
+PointEditor.prototype = {
   create: function() {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
@@ -108,8 +108,8 @@ Editor.prototype = {
     this.game.state.start('backgroundselection');
   },
   moveToNextState: function() {
-    this.game.state.start('phase2');
+    this.game.state.start('taskeditor');
   }
 };
 
-module.exports = Editor;
+module.exports = PointEditor;

@@ -7,8 +7,8 @@ window.onload = function() {
   // Game States
   game.state.add('backgroundselection', require('./states/backgroundselection'));
   game.state.add('boot', require('./states/boot'));
-  game.state.add('editor', require('./states/editor'));
-  game.state.add('phase2', require('./states/phase2'));
+  game.state.add('pointeditor', require('./states/pointeditor'));
   game.state.add('preload', require('./states/preload'));
+  game.state.add('taskeditor', require('./states/taskeditor'));
   game.state.start('boot');
 };
