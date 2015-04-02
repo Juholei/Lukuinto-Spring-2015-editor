@@ -2,12 +2,11 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
-var FileInputHandler = require('../fileinputhandler');
 var Constants = require('../constants');
 
 //State for setting GamePoints and MajorPoints on the game map.
-function Editor() {}
-Editor.prototype = {
+function PointEditor() {}
+PointEditor.prototype = {
   create: function() {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
@@ -15,25 +14,20 @@ Editor.prototype = {
     this.game.add.existing(this.mapView);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
-    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-    this.fileInputHandler = new FileInputHandler(25, 50, parentDiv);
-    this.fileInputHandler.addFileInputListener(this.mapView.displayImage, this.game.data);
   },
   update: function() {
   },
-  shutdown: function() {
-    this.fileInputHandler.remove();
-  },
   addButtons: function() {
-    var addStartPointButton = this.game.add.button(154, 646, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = this.game.add.button(162, 649, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(334, 646, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = this.game.add.button(343, 649, 'add-startpoint', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
-    var addPointsButton = this.game.add.button(514, 646, 'add-point', this.changeAction, this, 1, 0);
+    var addPointsButton = this.game.add.button(527, 649, 'add-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(694, 646, 'remove-point', this.changeAction, this, 1, 0);
+    var removePointsButton = this.game.add.button(708, 649, 'remove-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
-    this.game.add.button(891, 641, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
   //Changes the current action that happens on click based on the button that has been pressed.
   changeAction: function(button) {
@@ -110,9 +104,12 @@ Editor.prototype = {
     var scaleCorrectedNumber = (number / 3) * 4;
     return Math.floor(scaleCorrectedNumber);
   },
+  moveToPreviousState: function() {
+    this.game.state.start('backgroundselection');
+  },
   moveToNextState: function() {
-    this.game.state.start('phase2');
+    this.game.state.start('taskeditor');
   }
 };
 
-module.exports = Editor;
+module.exports = PointEditor;

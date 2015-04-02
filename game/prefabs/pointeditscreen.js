@@ -37,7 +37,9 @@ PointEditScreen.prototype.update = function() {
 };
 
 PointEditScreen.prototype.addButtons = function() {
-  var confirmButton = new LabeledButton(this.game, 330, 565, 'Hyväksy', this.confirmListener, this);
+  var confirmButton = new LabeledButton(this.game, 346, 571, 'Hyväksy', this.confirmListener, this);
+  confirmButton.width = 117;
+  confirmButton.height = 48;
   this.addChild(confirmButton);
   var exitButton = this.game.add.button(360, 5, 'close-button', this.closeScreen, this, 1, 0, 2, 0);
   this.addChild(exitButton);
@@ -52,13 +54,14 @@ PointEditScreen.prototype.addPreviewFrame = function() {
 
 PointEditScreen.prototype.addTitleText = function() {
   var textStyle = {font: '20pt Arial', fill: 'white', align: 'left'};
-  var titleText = this.game.add.text(100, 20, 'Etapin muokkaus', textStyle);
+  var titleText = this.game.add.text(205, 37, 'Etapin muokkaus', textStyle);
+  titleText.anchor.setTo(0.5);
   this.addChild(titleText);
 };
 
 PointEditScreen.prototype.addAnswerOptionsText = function() {
   var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
-  var answerOptionsText = this.game.add.text(21, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
+  var answerOptionsText = this.game.add.text(20, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
   var isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
   this.addChild(answerOptionsText);
   this.addChild(isCorrectText);

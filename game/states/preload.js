@@ -29,7 +29,7 @@ Preload.prototype = {
   },
   update: function() {
     if (!!this.ready) {
-      this.game.state.start('editor');
+      this.game.state.start('backgroundselection');
     }
   },
   onLoadComplete: function() {
