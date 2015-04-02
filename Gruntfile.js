@@ -61,12 +61,22 @@ module.exports = function (grunt) {
       dist: {
         files: [
           // includes files within path and its sub-directories
-          { expand: true, src: ['assets/**'], dest: 'dist/' },
-          { expand: true, flatten: true, src: ['game/plugins/*.js'], dest: 'dist/js/plugins/' },
-          { expand: true, flatten: true, src: ['bower_components/**/build/*.js'], dest: 'dist/js/' },
-          { expand: true, flatten: true, src: ['bower_components/**/build/*.map'], dest: 'dist/js/' },
-          { expand: true, src: ['css/**'], dest: 'dist/' },
-          { expand: true, src: ['index.html'], dest: 'dist/' }
+          {expand: true, src: ['assets/**'], dest: 'dist/'},
+          {expand: true, flatten: true, src: ['game/plugins/*.js'], dest: 'dist/js/plugins/'},
+          {expand: true, flatten: true, src: ['bower_components/**/build/*.js'], dest: 'dist/js/'},
+          {expand: true, flatten: true, src: ['bower_components/**/build/*.map'], dest: 'dist/js/' },
+          {expand: true, src: ['css/**'], dest: 'dist/'},
+          {expand: true, src: ['index.html'], dest: 'dist/'}
+        ]
+      },
+      heroku: {
+        files: [
+          {expand: true, src: ['assets/**'], dest: '../dist/client/editor'},
+          {expand: true, flatten: true, src: ['game/plugins/*.js'], dest: '../dist/client/editor/js/plugins/'},
+          {expand: true, flatten: true, src: ['bower_components/**/build/*.js'], dest: '../dist/client/editor/js/'},
+          {expand: true, flatten: true, src: ['bower_components/**/build/*.map'], dest: '../dist/client/editor/js/'},
+          {expand: true, src: ['css/**'], dest: '../dist/client/editor/'},
+          {expand: true, src: ['index.html'], dest: '../dist/client/editor/'}
         ]
       }
     },
@@ -78,10 +88,11 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('build', ['buildBootstrapper', 'browserify','copy']);
+  grunt.registerTask('build', ['buildBootstrapper', 'browserify', 'copy:dist']);
   grunt.registerTask('serve', ['build', 'connect:livereload', 'open', 'watch']);
   grunt.registerTask('default', ['serve']);
   grunt.registerTask('prod', ['build', 'copy']);
+  grunt.registerTask('heroku', ['buildBootstrapper', 'browserify', 'copy:heroku']);
 
   grunt.registerTask('buildBootstrapper', 'builds the bootstrapper file correctly', function() {
     var stateFiles = grunt.file.expand('game/states/*.js');
