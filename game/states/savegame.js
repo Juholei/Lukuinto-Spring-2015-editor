@@ -33,7 +33,7 @@ SaveGame.prototype = {
         }
       }
     }
-    console.log(this.game.data);
+    this.uploadGameJSON();
   },
   //Uploads the image which ObjectURL is at
   //dataObject.image and after uploading,
@@ -41,7 +41,7 @@ SaveGame.prototype = {
   //in the database.
   uploadImage: function(dataObject) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', dataObject.image, true);
+    xhr.open('GET', dataObject.image);
     xhr.responseType = 'blob';
     xhr.onload = function() {
       if (this.status === 200) {
@@ -49,7 +49,7 @@ SaveGame.prototype = {
         var formData = new FormData();
         formData.append('file', file);
         var request = new XMLHttpRequest();
-        request.open('POST', '/upload', true);
+        request.open('POST', '/upload');
         request.onload = function() {
           if (request.status === 200) {
             console.log('Uploaded');
@@ -64,6 +64,17 @@ SaveGame.prototype = {
       }
     };
     xhr.send();
+  },
+  uploadGameJSON: function() {
+    var request = new XMLHttpRequest();
+    request.open('POST', '/savegamejson');
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        console.log(request.responseText);
+      }
+    };
+    request.setRequestHeader('Content-type', 'application/json');
+    request.send(JSON.stringify(this.game.data));
   }
 };
 module.exports = SaveGame;
