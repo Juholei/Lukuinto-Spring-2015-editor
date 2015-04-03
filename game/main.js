@@ -9,6 +9,7 @@ window.onload = function() {
   game.state.add('boot', require('./states/boot'));
   game.state.add('pointeditor', require('./states/pointeditor'));
   game.state.add('preload', require('./states/preload'));
+  game.state.add('savegame', require('./states/savegame'));
   game.state.add('taskeditor', require('./states/taskeditor'));
   game.state.start('boot');
 };
