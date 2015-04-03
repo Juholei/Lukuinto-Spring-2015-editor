@@ -20,15 +20,31 @@ SaveGame.prototype = {
   },
   uploadGameData: function() {
     console.log('Uploading');
-    var img = document.getElementById('kuva');
-    this.uploadImage(this.game.data.image);
+    var gameData = this.game.data;
+    if (gameData.image !== null && gameData.image !== undefined) {
+      this.uploadImage(this.game.data);
+    }
+    for (var i = 0; i < gameData.points.length; i++) {
+      var pointData = gameData.points[i];
+      for (var j = 0; j < pointData.tasks.length; j++) {
+        var task = pointData.tasks[j];
+        if (task.image !== null && gameData.image !== undefined) {
+          this.uploadImage(task);
+        }
+      }
+    }
+    console.log(this.game.data);
   },
-  uploadImage: function(file) {
+  //Uploads the image which ObjectURL is at
+  //dataObject.image and after uploading,
+  //changes dataObject.image to image id
+  //in the database.
+  uploadImage: function(dataObject) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', file, true);
+    xhr.open('GET', dataObject.image, true);
     xhr.responseType = 'blob';
-    xhr.onload = function(e) {
-      if (this.status == 200) {
+    xhr.onload = function() {
+      if (this.status === 200) {
         var file = this.response;
         var formData = new FormData();
         formData.append('file', file);
@@ -38,6 +54,8 @@ SaveGame.prototype = {
           if (request.status === 200) {
             console.log('Uploaded');
             console.log(request.responseText);
+            var responseObject = JSON.parse(request.responseText);
+            dataObject.image = responseObject.id;
           } else {
             console.log(request.status + 'occurred uploading your file.');
           }
