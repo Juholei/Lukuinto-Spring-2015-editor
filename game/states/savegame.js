@@ -40,7 +40,7 @@ SaveGame.prototype = {
       var pointData = gameData.points[i];
       for (var j = 0; j < pointData.tasks.length; j++) {
         var task = pointData.tasks[j];
-        if (task.image !== null && gameData.image !== undefined) {
+        if (task.image !== null && task.image !== undefined) {
           stack.push(task);
         }
       }
