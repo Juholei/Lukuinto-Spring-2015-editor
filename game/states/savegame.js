@@ -18,7 +18,18 @@ SaveGame.prototype = {
   },
   shutdown: function() {
   },
-  uploadGameData: function() {
+  uploadGameData: function(button) {
+    button.inputEnabled = false;
+    button.visible = false;
+    var textStyle = {
+      font: '24pt Arial',
+      fill: 'white',
+      strokeThickness: 5,
+      align: 'center',
+    };
+    this.progressText = this.game.add.text(this.game.world.centerX, 30, 'Peliä tallennetaan...', textStyle);
+    this.progressText.anchor.setTo(0.5);
+
     console.log('Uploading');
     var stack = [];
     var gameData = this.game.data;
@@ -35,7 +46,6 @@ SaveGame.prototype = {
       }
     }
     this.uploadImage(stack);
-    // this.uploadGameJSON();
   },
   //Uploads the image which ObjectURL is at
   //dataObject.image and after uploading,
@@ -78,9 +88,11 @@ SaveGame.prototype = {
   uploadGameJSON: function() {
     var request = new XMLHttpRequest();
     request.open('POST', '/savegamejson');
+    var self = this;
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
         console.log(request.responseText);
+        self.progressText.text = 'Peli tallennettu palvelimelle!';
       }
     };
     request.setRequestHeader('Content-type', 'application/json');
