@@ -13,6 +13,7 @@ TaskEditor.prototype = {
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
     this.backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
   //When PointView inside MapView is clicked, this is called.
   //Disables input on all the buttons that are in this state.
@@ -35,6 +36,9 @@ TaskEditor.prototype = {
   },
   moveToPreviousState: function() {
     this.game.state.start('pointeditor');
+  },
+  moveToNextState: function() {
+    this.game.state.start('savegame');
   }
 };
 module.exports = TaskEditor;
