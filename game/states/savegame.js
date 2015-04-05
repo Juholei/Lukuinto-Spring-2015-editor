@@ -7,8 +7,20 @@ SaveGame.prototype = {
   },
   create: function() {
     this.game.add.image(0, 0, 'frame');
-    var saveButton = new LabeledButton(this.game, this.game.world.centerX, 180, 'Tallenna', this.uploadGameData, this);
+    this.textStyle = {
+      font: '24pt Arial',
+      fill: 'white',
+      strokeThickness: 5,
+      align: 'center',
+    };
+    var centerX = this.game.world.centerX;
+    var centerY = this.game.world.centerY;
+    var titleText = this.game.add.text(centerX, 62, 'Vaihe 4: Tallenna peli', this.textStyle);
+    titleText.anchor.setTo(0.5);
+    var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Tallenna', this.uploadGameData, this);
     this.game.add.existing(saveButton);
+    var backButton = new LabeledButton(this.game, centerX, centerY, 'Muokkaa', this.moveToPreviousState, this);
+    this.game.add.existing(backButton);
   },
   update: function() {
   },
@@ -21,13 +33,7 @@ SaveGame.prototype = {
   uploadGameData: function(button) {
     button.inputEnabled = false;
     button.visible = false;
-    var textStyle = {
-      font: '24pt Arial',
-      fill: 'white',
-      strokeThickness: 5,
-      align: 'center',
-    };
-    this.progressText = this.game.add.text(this.game.world.centerX, 30, 'Peliä tallennetaan...', textStyle);
+    this.progressText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Peliä tallennetaan...', this.textStyle);
     this.progressText.anchor.setTo(0.5);
 
     console.log('Uploading');
@@ -97,6 +103,9 @@ SaveGame.prototype = {
     };
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(this.game.data));
-  }
+  },
+  moveToPreviousState: function() {
+    this.game.state.start('taskeditor');
+  },
 };
 module.exports = SaveGame;
