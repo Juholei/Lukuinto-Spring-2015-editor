@@ -72,7 +72,7 @@ PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
   this.questionInput = document.createElement('textarea');
   this.questionInput.className = 'questionBox';
-  this.questionInput.setAttribute('placeholder', 'Kysymysteksti tähän');
+  this.questionInput.setAttribute('placeholder', 'Etapin kuvaus tähän...');
   this.questionInput.style.left = (this.x + Constants.HTML.QUESTION_INPUT_X) + 'px';
   this.questionInput.style.top = (this.y + Constants.HTML.QUESTION_INPUT_Y) + 'px';
   parentDiv.appendChild(this.questionInput);
