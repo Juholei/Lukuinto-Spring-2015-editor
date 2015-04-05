@@ -9,7 +9,7 @@ SaveGame.prototype = {
     this.game.add.image(0, 0, 'frame');
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
-    var titleText = this.game.add.text(centerX, 62, 'Vaihe 4: Tallenna peli', titleTextStyle);
+    var titleText = this.game.add.text(512, 32, 'Vaihe 4: Tallenna peli', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttons = this.game.add.group();
     var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Tallenna', this.uploadGameData, this);
@@ -33,7 +33,6 @@ SaveGame.prototype = {
     this.progressText = this.game.add.text(centerX, centerY, 'Peliä tallennetaan...', titleTextStyle);
     this.progressText.anchor.setTo(0.5);
 
-    console.log('Uploading');
     var stack = [];
     var gameData = this.game.data;
     if (gameData.image !== null && gameData.image !== undefined) {
@@ -52,7 +51,7 @@ SaveGame.prototype = {
   },
   //Pops an object from the stack and uploads the image which ObjectURL is at
   //dataObject.image and after uploading changes dataObject.image to  match
-  //image id in the database.
+  //image id in the database. When stack is empty, game data json is uploaded.
   uploadImage: function(stack) {
     var dataObject = stack.pop();
 

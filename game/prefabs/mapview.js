@@ -11,7 +11,7 @@ var Constants = require('../constants');
 //the size of the game area and then scaled down.
 //The actual background image is displayed in MapView.displayImage, which is a child Phaser.Image object.
 var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
-  Phaser.Image.call(this, game, 128, 30);
+  Phaser.Image.call(this, game, 128, 60);
   this.width = 1024;
   this.height = 768;
   this.scale.setTo(Constants.MAPVIEW_SCALE);
