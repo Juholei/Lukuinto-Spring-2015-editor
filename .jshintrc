@@ -27,6 +27,8 @@
     "document": false,
     "PIXI": false,
     "URL": false,
-    "Image": false
+    "Image": false,
+    "XMLHttpRequest": false,
+    "FormData": false
   }
 }
