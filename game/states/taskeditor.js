@@ -15,8 +15,11 @@ TaskEditor.prototype = {
     this.game.add.existing(this.mapView);
     var titleText = this.game.add.text(512, 62, 'Vaihe 3: Luo tehtävät etappeihin', titleTextStyle);
     titleText.anchor.setTo(0.5);
-    this.backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
-    this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    this.buttons = this.game.add.group();
+    var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    var forwardButton = this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    this.buttons.add(backButton);
+    this.buttons.add(forwardButton);
   },
   //When PointView inside MapView is clicked, this is called.
   //Disables input on all the buttons that are in this state.
@@ -28,14 +31,14 @@ TaskEditor.prototype = {
       pointView.frame = 0;
       pointView.freezeFrames = false;
       self.mapView.toggleInputOnPointViews(true);
-      self.backButton.inputEnabled = true;
+      self.buttons.setAll('inputEnabled', true);
     };
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
     this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
-    this.backButton.inputEnabled = false;
+    this.buttons.setAll('inputEnabled', false);
   },
   moveToPreviousState: function() {
     this.game.state.start('pointeditor');
