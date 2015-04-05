@@ -38,6 +38,10 @@ SaveGame.prototype = {
     if (gameData.image !== null && gameData.image !== undefined) {
       stack.push(this.game.data);
     }
+    this.addGameImages(gameData, stack);
+    this.uploadImage(stack);
+  },
+  addGameImages: function(gameData, stack) {
     for (var i = 0; i < gameData.points.length; i++) {
       var pointData = gameData.points[i];
       for (var j = 0; j < pointData.tasks.length; j++) {
@@ -47,11 +51,11 @@ SaveGame.prototype = {
         }
       }
     }
-    this.uploadImage(stack);
   },
   //Pops an object from the stack and uploads the image which ObjectURL is at
   //dataObject.image and after uploading changes dataObject.image to  match
-  //image id in the database. When stack is empty, game data json is uploaded.
+  //image id in the database. Then recursively calls itself with the stack.
+  //When stack is empty, game data json is uploaded.
   uploadImage: function(stack) {
     var dataObject = stack.pop();
 

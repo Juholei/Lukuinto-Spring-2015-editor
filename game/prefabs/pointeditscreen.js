@@ -164,7 +164,7 @@ PointEditScreen.prototype.addImagePreview = function(taskIndex) {
 
 PointEditScreen.prototype.addFileInputHandler = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-  this.fileInputHandler = new FileInputHandler(this.x + 20, 590, parentDiv);
+  this.fileInputHandler = new FileInputHandler(this.x + 17, 578, parentDiv);
   this.fileInputHandler.addFileInputListener(this.previewFrame, this.imageInfo);
 };
 
