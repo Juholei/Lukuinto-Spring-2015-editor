@@ -1,26 +1,21 @@
 'use strict';
 var LabeledButton = require('../prefabs/labeledbutton');
-
+var titleTextStyle = require('../titletextstyle');
 function SaveGame() {}
 SaveGame.prototype = {
   preload: function() {
   },
   create: function() {
     this.game.add.image(0, 0, 'frame');
-    this.textStyle = {
-      font: '24pt Arial',
-      fill: 'white',
-      strokeThickness: 5,
-      align: 'center',
-    };
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
-    var titleText = this.game.add.text(centerX, 62, 'Vaihe 4: Tallenna peli', this.textStyle);
+    var titleText = this.game.add.text(centerX, 62, 'Vaihe 4: Tallenna peli', titleTextStyle);
     titleText.anchor.setTo(0.5);
+    this.buttons = this.game.add.group();
     var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Tallenna', this.uploadGameData, this);
-    this.game.add.existing(saveButton);
+    this.buttons.add(saveButton);
     var backButton = new LabeledButton(this.game, centerX, centerY, 'Muokkaa', this.moveToPreviousState, this);
-    this.game.add.existing(backButton);
+    this.buttons.add(backButton);
   },
   update: function() {
   },
@@ -30,10 +25,12 @@ SaveGame.prototype = {
   },
   shutdown: function() {
   },
-  uploadGameData: function(button) {
-    button.inputEnabled = false;
-    button.visible = false;
-    this.progressText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Peliä tallennetaan...', this.textStyle);
+  uploadGameData: function() {
+    this.buttons.setAll('visible', false);
+    this.buttons.setAll('inputEnabled', false);
+    var centerX = this.game.world.centerX;
+    var centerY = this.game.world.centerY;
+    this.progressText = this.game.add.text(centerX, centerY, 'Peliä tallennetaan...', titleTextStyle);
     this.progressText.anchor.setTo(0.5);
 
     console.log('Uploading');
@@ -53,10 +50,9 @@ SaveGame.prototype = {
     }
     this.uploadImage(stack);
   },
-  //Uploads the image which ObjectURL is at
-  //dataObject.image and after uploading,
-  //changes dataObject.image to image id
-  //in the database.
+  //Pops an object from the stack and uploads the image which ObjectURL is at
+  //dataObject.image and after uploading changes dataObject.image to  match
+  //image id in the database.
   uploadImage: function(stack) {
     var dataObject = stack.pop();
 
