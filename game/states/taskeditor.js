@@ -1,6 +1,7 @@
 'use strict';
 var MapView = require('../prefabs/mapview');
 var PointEditScreen = require('../prefabs/pointeditscreen');
+var titleTextStyle = require('../titletextstyle');
 
 function TaskEditor() {}
 TaskEditor.prototype = {
@@ -12,6 +13,8 @@ TaskEditor.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
+    var titleText = this.game.add.text(512, 62, 'Vaihe 3: Luo tehtävät etappeihin', titleTextStyle);
+    titleText.anchor.setTo(0.5);
     this.backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
     this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
   },
