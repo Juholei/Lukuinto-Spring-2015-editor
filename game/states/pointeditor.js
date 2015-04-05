@@ -3,6 +3,7 @@ var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
 var Constants = require('../constants');
+var titleTextStyle = require('../titletextstyle');
 
 //State for setting GamePoints and MajorPoints on the game map.
 function PointEditor() {}
@@ -12,6 +13,8 @@ PointEditor.prototype = {
     this.mapView = new MapView(this.game, this.removePoint, this);
     this.mapView.toggleInputOnPointViews(false);
     this.game.add.existing(this.mapView);
+    var titleText = this.game.add.text(512, 32, 'Vaihe 2: Aseta etapit kartalle', titleTextStyle);
+    titleText.anchor.setTo(0.5);
     this.buttonGroup = this.game.add.group();
     this.addButtons();
   },

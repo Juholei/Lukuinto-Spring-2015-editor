@@ -1,14 +1,21 @@
 'use strict';
 var LabeledButton = require('../prefabs/labeledbutton');
-
+var titleTextStyle = require('../titletextstyle');
 function SaveGame() {}
 SaveGame.prototype = {
   preload: function() {
   },
   create: function() {
     this.game.add.image(0, 0, 'frame');
-    var saveButton = new LabeledButton(this.game, this.game.world.centerX, 180, 'Tallenna', this.uploadGameData, this);
-    this.game.add.existing(saveButton);
+    var centerX = this.game.world.centerX;
+    var centerY = this.game.world.centerY;
+    var titleText = this.game.add.text(512, 32, 'Vaihe 4: Tallenna peli', titleTextStyle);
+    titleText.anchor.setTo(0.5);
+    this.buttons = this.game.add.group();
+    var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Tallenna', this.uploadGameData, this);
+    this.buttons.add(saveButton);
+    var backButton = new LabeledButton(this.game, centerX, centerY, 'Muokkaa', this.moveToPreviousState, this);
+    this.buttons.add(backButton);
   },
   update: function() {
   },
@@ -19,28 +26,36 @@ SaveGame.prototype = {
   shutdown: function() {
   },
   uploadGameData: function() {
-    console.log('Uploading');
+    this.buttons.setAll('visible', false);
+    this.buttons.setAll('inputEnabled', false);
+    var centerX = this.game.world.centerX;
+    var centerY = this.game.world.centerY;
+    this.progressText = this.game.add.text(centerX, centerY, 'Peliä tallennetaan...', titleTextStyle);
+    this.progressText.anchor.setTo(0.5);
+
     var stack = [];
     var gameData = this.game.data;
     if (gameData.image !== null && gameData.image !== undefined) {
       stack.push(this.game.data);
     }
+    this.addGameImages(gameData, stack);
+    this.uploadImage(stack);
+  },
+  addGameImages: function(gameData, stack) {
     for (var i = 0; i < gameData.points.length; i++) {
       var pointData = gameData.points[i];
       for (var j = 0; j < pointData.tasks.length; j++) {
         var task = pointData.tasks[j];
-        if (task.image !== null && gameData.image !== undefined) {
+        if (task.image !== null && task.image !== undefined) {
           stack.push(task);
         }
       }
     }
-    this.uploadImage(stack);
-    // this.uploadGameJSON();
   },
-  //Uploads the image which ObjectURL is at
-  //dataObject.image and after uploading,
-  //changes dataObject.image to image id
-  //in the database.
+  //Pops an object from the stack and uploads the image which ObjectURL is at
+  //dataObject.image and after uploading changes dataObject.image to  match
+  //image id in the database. Then recursively calls itself with the stack.
+  //When stack is empty, game data json is uploaded.
   uploadImage: function(stack) {
     var dataObject = stack.pop();
 
@@ -78,13 +93,18 @@ SaveGame.prototype = {
   uploadGameJSON: function() {
     var request = new XMLHttpRequest();
     request.open('POST', '/savegamejson');
+    var self = this;
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
         console.log(request.responseText);
+        self.progressText.text = 'Peli tallennettu palvelimelle!';
       }
     };
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(this.game.data));
-  }
+  },
+  moveToPreviousState: function() {
+    this.game.state.start('taskeditor');
+  },
 };
 module.exports = SaveGame;
