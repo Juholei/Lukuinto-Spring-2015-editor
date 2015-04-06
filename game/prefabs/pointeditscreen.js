@@ -4,6 +4,7 @@ var GameDataCreator = require('../gamedatacreator');
 var FileInputHandler = require('../fileinputhandler');
 var loadImageToSprite = require('../imageloader');
 var Constants = require('../constants');
+var addTextInput = require('../addtextinput');
 
 //Helper class to keep related DOM input elements together
 function AnswerInput(answerTextInput, answerCheckboxInput) {
@@ -86,7 +87,7 @@ PointEditScreen.prototype.addAnswerInputs = function() {
   for (var i = 0; i < 4; i++) {
     var textX = this.x + Constants.HTML.ANSWER_INPUT_X;
     var textY = this.y + Constants.HTML.ANSWER_INPUT_Y + i * Constants.HTML.MARGIN;
-    var answerTextInput = this.addAnswerTextInput(textX, textY, parentDiv);
+    var answerTextInput = addTextInput(textX, textY, 'Vastausvaihtoehto tähän', parentDiv);
 
     var checkboxX = this.x + Constants.HTML.CHECKBOX_X;
     var checkboxY = this.y + Constants.HTML.CHECKBOX_Y + i * Constants.HTML.MARGIN;
@@ -95,18 +96,6 @@ PointEditScreen.prototype.addAnswerInputs = function() {
     var answerInput = new AnswerInput(answerTextInput, answerCheckboxInput);
     this.answerInputs.push(answerInput);
   }
-};
-
-PointEditScreen.prototype.addAnswerTextInput = function(x, y, parent) {
-  var answerTextInput = document.createElement('input');
-  answerTextInput.type = 'text';
-  answerTextInput.className = 'answerTextInput';
-  answerTextInput.setAttribute('placeholder', 'Vastausvaihtoehto tähän');
-  answerTextInput.style.left = x + 'px';
-  answerTextInput.style.top = y + 'px';
-  parent.appendChild(answerTextInput);
-
-  return answerTextInput;
 };
 
 PointEditScreen.prototype.addAnswerCheckboxInput = function(x, y, parent) {
