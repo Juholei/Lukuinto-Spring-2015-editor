@@ -161,24 +161,47 @@ PointEditScreen.prototype.addFileInputHandler = function() {
 //Then close this screen.
 PointEditScreen.prototype.confirmListener = function() {
   var task = new GameDataCreator.Task();
-  task.question = this.questionInput.value;
+  if (this.allFilled() && this.correctAnswerExists()) {
+    task.question = this.questionInput.value;
+    for (var i = 0; i < this.answerInputs.length; i++) {
+      var answerText = this.answerInputs[i].answerTextInput.value;
+      var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
+      var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
+      task.answers.push(answer);
+    }
+    if (this.imageInfo.image !== '') {
+      task.image = this.imageInfo.image;
+      console.log(this.imageInfo.image);
+    }
+    if (this.taskSelector.value !== '') {
+      this.pointData.tasks[this.taskSelector.value] = task;
+    } else {
+      this.pointData.tasks.push(task);
+    }
+    this.closeScreen();
+  }
+};
+
+PointEditScreen.prototype.allFilled = function() {
+  if (this.questionInput.value.length === 0) {
+    return false;
+  }
 
   for (var i = 0; i < this.answerInputs.length; i++) {
-    var answerText = this.answerInputs[i].answerTextInput.value;
-    var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
-    var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
-    task.answers.push(answer);
+    if (this.answerInputs[i].answerTextInput.value.length === 0) {
+      return false;
+    }
   }
-  if (this.imageInfo.image !== '') {
-    task.image = this.imageInfo.image;
-    console.log(this.imageInfo.image);
+  return true;
+};
+
+PointEditScreen.prototype.correctAnswerExists = function() {
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    if (this.answerInputs[i].answerCheckboxInput.checked) {
+      return true;
+    }
   }
-  if (this.taskSelector.value !== '') {
-    this.pointData.tasks[this.taskSelector.value] = task;
-  } else {
-    this.pointData.tasks.push(task);
-  }
-  this.closeScreen();
+  return false;
 };
 
 //Remove all DOM elements and then destroy the object.
