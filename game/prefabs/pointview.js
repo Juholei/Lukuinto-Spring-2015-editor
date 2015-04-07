@@ -23,7 +23,7 @@ PointView.prototype.update = function() {
   }
 };
 
-PointView.prototype.updateIndexText = function() {
+PointView.prototype.updateIndex = function() {
   var index = this.pointDataArray.indexOf(this.pointData);
   var indexString = (index + 1);
   this.indexText.text = indexString;
