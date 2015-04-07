@@ -1,4 +1,5 @@
 'use strict';
+var Constants = require('../constants');
 
 //Graphical representation of GamePoint gamedata object.
 var PointView = function(game, pointData, pointDataArray, callback, callbackContext) {
@@ -26,6 +27,10 @@ PointView.prototype.updateIndexText = function() {
   var index = this.pointDataArray.indexOf(this.pointData);
   var indexString = (index + 1);
   this.indexText.text = indexString;
+
+  if (index === 0 && this.pointData.state !== Constants.pointStates.NEXT) {
+    this.pointData.state = Constants.pointStates.NEXT;
+  }
 };
 
 module.exports = PointView;

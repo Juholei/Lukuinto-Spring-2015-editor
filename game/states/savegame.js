@@ -13,10 +13,10 @@ SaveGame.prototype = {
     this.textInput = addTextInput(this.game.world.centerX - 151, 220, 'Syötä pelin nimi', parentDiv);
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
-    var titleText = this.game.add.text(512, 32, 'Vaihe 4: Tallenna peli', titleTextStyle);
+    var titleText = this.game.add.text(512, 32, 'Vaihe 4: Julkaise peli', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttons = this.game.add.group();
-    var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Tallenna', this.uploadGameData, this);
+    var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Julkaise', this.uploadGameData, this);
     this.buttons.add(saveButton);
     var backButton = new LabeledButton(this.game, centerX, centerY, 'Muokkaa', this.moveToPreviousState, this);
     this.buttons.add(backButton);
@@ -28,6 +28,7 @@ SaveGame.prototype = {
   render: function() {
   },
   shutdown: function() {
+    this.textInput.parentNode.removeChild(this.textInput);
   },
   uploadGameData: function() {
     this.buttons.setAll('visible', false);
@@ -37,7 +38,7 @@ SaveGame.prototype = {
     this.textInput.parentNode.removeChild(this.textInput);
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
-    this.progressText = this.game.add.text(centerX, centerY, 'Peliä tallennetaan...', titleTextStyle);
+    this.progressText = this.game.add.text(centerX, centerY, 'Peliä siirretään palvelimelle...', titleTextStyle);
     this.progressText.anchor.setTo(0.5);
 
     var stack = [];
@@ -104,7 +105,7 @@ SaveGame.prototype = {
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
         console.log(request.responseText);
-        self.progressText.text = 'Peli tallennettu palvelimelle!';
+        self.progressText.text = 'Peli siirretty palvelimelle!';
       }
     };
     request.setRequestHeader('Content-type', 'application/json');
