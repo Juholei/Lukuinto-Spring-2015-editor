@@ -178,7 +178,6 @@ PointEditScreen.prototype.confirmListener = function() {
   } else {
     this.pointData.tasks.push(task);
   }
-  this.updatePreviewText();
   this.closeScreen();
 };
 
@@ -193,11 +192,6 @@ PointEditScreen.prototype.closeScreen = function() {
   this.fileInputHandler.remove();
   this.closingCallback();
   this.destroy();
-};
-
-PointEditScreen.prototype.updatePreviewText = function() {
-  var textArea = window.document.getElementById('outputJSON');
-  textArea.value = JSON.stringify(this.game.data, null, 2);
 };
 
 module.exports = PointEditScreen;

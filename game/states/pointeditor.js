@@ -71,14 +71,12 @@ PointEditor.prototype = {
       this.game.data.points.push(newPoint);
       var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
       this.mapView.addPointView(pointSprite);
-      this.updatePreviewText();
     }
   },
   removePoint: function(pointView) {
     var indexToRemove = this.game.data.points.indexOf(pointView.pointData);
     this.game.data.points.splice(indexToRemove, 1);
     this.mapView.updatePointViews();
-    this.updatePreviewText();
     pointView.kill();
   },
   addStartPoint: function(sprite, pointer) {
@@ -86,7 +84,6 @@ PointEditor.prototype = {
       this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
       this.game.data.startPoint.y = this.scaleUp(pointer.y - this.mapView.y);
       this.mapView.updateStartPoint();
-      this.updatePreviewText();
     }
   },
   addEndPoint: function(sprite, pointer) {
@@ -94,12 +91,7 @@ PointEditor.prototype = {
       this.game.data.endPoint.x = this.scaleUp(pointer.x - this.mapView.x);
       this.game.data.endPoint.y = this.scaleUp(pointer.y - this.mapView.y);
       this.mapView.updateEndPoint();
-      this.updatePreviewText();
     }
-  },
-  updatePreviewText: function() {
-    var textArea = window.document.getElementById('outputJSON');
-    textArea.value = JSON.stringify(this.game.data, null, 2);
   },
   //Scales up point related numbers from the 0.75 scale of the displayed game area
   //to the correct game area size used in the game
