@@ -21,7 +21,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.answerTextInput {
+.textInput {
   position: absolute;
   width: 302px;
   height: 31px;

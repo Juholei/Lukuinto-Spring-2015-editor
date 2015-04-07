@@ -1,12 +1,16 @@
 'use strict';
 var LabeledButton = require('../prefabs/labeledbutton');
 var titleTextStyle = require('../titletextstyle');
+var addTextInput = require('../addtextinput');
+
 function SaveGame() {}
 SaveGame.prototype = {
   preload: function() {
   },
   create: function() {
     this.game.add.image(0, 0, 'frame');
+    var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+    this.textInput = addTextInput(this.game.world.centerX - 151, 220, 'Syötä pelin nimi', parentDiv);
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
     var titleText = this.game.add.text(512, 32, 'Vaihe 4: Tallenna peli', titleTextStyle);
@@ -28,6 +32,9 @@ SaveGame.prototype = {
   uploadGameData: function() {
     this.buttons.setAll('visible', false);
     this.buttons.setAll('inputEnabled', false);
+    this.game.data.name = this.textInput.value;
+    console.log(this.textInput.value);
+    this.textInput.parentNode.removeChild(this.textInput);
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
     this.progressText = this.game.add.text(centerX, centerY, 'Peliä tallennetaan...', titleTextStyle);
