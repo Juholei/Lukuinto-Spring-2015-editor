@@ -103,7 +103,21 @@ PointEditor.prototype = {
     this.game.state.start('backgroundselection');
   },
   moveToNextState: function() {
-    this.game.state.start('taskeditor');
+    if (this.allPointsSet()) {
+      this.game.state.start('taskeditor');
+    }
+  },
+  allPointsSet: function() {
+    if (this.game.data.startPoint.x === undefined) {
+      return false;
+    }
+    if (this.game.data.endPoint.x === undefined) {
+      return false;
+    }
+    if (this.game.data.points.length === 0) {
+      return false;
+    }
+    return true;
   }
 };
 
