@@ -71,7 +71,11 @@ PointEditScreen.prototype.addAnswerOptionsText = function() {
 //Add DOM textarea on top of the canvas for inputting question text
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  var clickListener = function(click) {
+    click.target.className = 'questionBox';
+  };
   this.questionInput = document.createElement('textarea');
+  this.questionInput.onclick = clickListener;
   this.questionInput.className = 'questionBox';
   this.questionInput.setAttribute('placeholder', 'Etapin kuvaus tähän...');
   this.questionInput.style.left = (this.x + Constants.HTML.QUESTION_INPUT_X) + 'px';
@@ -83,12 +87,14 @@ PointEditScreen.prototype.addQuestionInput = function() {
 //and checkboxes for marking the answers correct or incorrect.
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-
+  var clickListener = function(click) {
+    click.target.className = 'textInput';
+  };
   for (var i = 0; i < 4; i++) {
     var textX = this.x + Constants.HTML.ANSWER_INPUT_X;
     var textY = this.y + Constants.HTML.ANSWER_INPUT_Y + i * Constants.HTML.MARGIN;
     var answerTextInput = addTextInput(textX, textY, 'Vastausvaihtoehto tähän', parentDiv);
-
+    answerTextInput.onclick = clickListener;
     var checkboxX = this.x + Constants.HTML.CHECKBOX_X;
     var checkboxY = this.y + Constants.HTML.CHECKBOX_Y + i * Constants.HTML.MARGIN;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
@@ -114,7 +120,7 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
   this.taskSelector = document.createElement('select');
   this.taskSelector.className = 'taskSelection';
   this.taskSelector.setAttribute('size', 10);
-  this.taskSelector.style.left = (this.x + Constants.HTML.TASKSELECTOR_X) + 'px';
+  this.taskSelector.style.left = (this.x + Constants.HTML.TASKSELECTOR_X)  + 'px';
   this.taskSelector.style.top = (this.y + Constants.HTML.QUESTION_INPUT_Y) + 'px';
 
   for (var i = 0; i < this.pointData.tasks.length; i++) {
@@ -126,7 +132,6 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
 
   var self = this;
   this.taskSelector.onchange = function() {
-    console.log(this.value);
     self.fillQuestionInput(this.value);
     self.fillAnswerInputs(this.value);
     self.addImagePreview(this.value);
@@ -184,14 +189,20 @@ PointEditScreen.prototype.confirmListener = function() {
 };
 
 PointEditScreen.prototype.allFilled = function() {
+  var notFilled = 0;
   if (this.questionInput.value.length === 0) {
-    return false;
+    this.questionInput.className += ' error';
+    notFilled++;
   }
 
   for (var i = 0; i < this.answerInputs.length; i++) {
     if (this.answerInputs[i].answerTextInput.value.length === 0) {
-      return false;
+      this.answerInputs[i].answerTextInput.className += ' error';
+      notFilled++
     }
+  }
+  if (notFilled > 0) {
+    return false;
   }
   return true;
 };
