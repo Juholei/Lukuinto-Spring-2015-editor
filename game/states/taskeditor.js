@@ -2,6 +2,7 @@
 var MapView = require('../prefabs/mapview');
 var PointEditScreen = require('../prefabs/pointeditscreen');
 var titleTextStyle = require('../titletextstyle');
+var ErrorAnnouncement = require('../prefabs/errorannouncement');
 
 function TaskEditor() {}
 TaskEditor.prototype = {
@@ -44,7 +45,30 @@ TaskEditor.prototype = {
     this.game.state.start('pointeditor');
   },
   moveToNextState: function() {
-    this.game.state.start('savegame');
+    if (this.allPointsHaveTasks()) {
+      this.game.state.start('savegame');
+    } else {
+      var callback = function(button) {
+        this.buttons.setAll('inputEnabled', true);
+        this.mapView.toggleInputOnPointViews(true);
+        button.parent.destroy();
+      };
+      var announcement = new ErrorAnnouncement(this.game, callback, this, 'Kaikilla etapeilla ei ole tehtäviä.');
+      this.buttons.setAll('inputEnabled', false);
+      this.mapView.toggleInputOnPointViews(false);
+      this.game.add.existing(announcement);
+    }
+
+  },
+  allPointsHaveTasks: function() {
+    var points = this.game.data.points;
+
+    for (var i = 0; i < points.length; i++) {
+      if (points[i].tasks.length === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 };
 module.exports = TaskEditor;

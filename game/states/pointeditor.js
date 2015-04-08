@@ -2,6 +2,7 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
+var ErrorAnnouncement = require('../prefabs/errorannouncement');
 var Constants = require('../constants');
 var titleTextStyle = require('../titletextstyle');
 
@@ -29,8 +30,10 @@ PointEditor.prototype = {
     this.buttonGroup.add(addPointsButton);
     var removePointsButton = this.game.add.button(708, 649, 'remove-point', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
-    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
-    this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.buttonGroup.add(backButton);
+    var forwardButton = this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    this.buttonGroup.add(forwardButton);
   },
   //Changes the current action that happens on click based on the button that has been pressed.
   changeAction: function(button) {
@@ -105,6 +108,16 @@ PointEditor.prototype = {
   moveToNextState: function() {
     if (this.allPointsSet()) {
       this.game.state.start('taskeditor');
+    } else {
+      var callback = function(button) {
+        this.buttonGroup.setAll('inputEnabled', true);
+        this.mapView.toggleInputOnPointViews(true);
+        button.parent.destroy();
+      };
+      var announcement = new ErrorAnnouncement(this.game, callback, this, 'Et ole asettanut kaikkia vaadittuja pisteitä.');
+      this.buttonGroup.setAll('inputEnabled', false);
+      this.mapView.toggleInputOnPointViews(false);
+      this.game.add.existing(announcement);
     }
   },
   allPointsSet: function() {
