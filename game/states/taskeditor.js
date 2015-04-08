@@ -14,7 +14,7 @@ TaskEditor.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
     this.game.add.existing(this.mapView);
-    var titleText = this.game.add.text(512, 32, 'Vaihe 3: Luo tehtävät etappeihin', titleTextStyle);
+    var titleText = this.game.add.text(512, 32, 'Vaihe 3: Luo tehtävät etappeihin valitsemalla etappi', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttons = this.game.add.group();
     var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);

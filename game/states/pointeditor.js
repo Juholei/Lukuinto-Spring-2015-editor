@@ -3,6 +3,7 @@ var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
 var ErrorAnnouncement = require('../prefabs/errorannouncement');
+var LabeledImageButton = require('../prefabs/labeledimagebutton');
 var Constants = require('../constants');
 var titleTextStyle = require('../titletextstyle');
 
@@ -22,13 +23,13 @@ PointEditor.prototype = {
   update: function() {
   },
   addButtons: function() {
-    var addStartPointButton = this.game.add.button(162, 649, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = new LabeledImageButton(this.game, 162, 649, 'add-startpoint', 'Aseta lähtö', this.changeAction, this);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(343, 649, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = new LabeledImageButton(this.game, 343, 649, 'add-startpoint', 'Aseta maali', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
-    var addPointsButton = this.game.add.button(527, 649, 'add-point', this.changeAction, this, 1, 0);
+    var addPointsButton = new LabeledImageButton(this.game, 527, 649, 'add-point', 'Lisää etappi', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(708, 649, 'remove-point', this.changeAction, this, 1, 0);
+    var removePointsButton = new LabeledImageButton(this.game, 708, 649, 'remove-point', 'Poista etappi', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
     var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
     this.buttonGroup.add(backButton);
