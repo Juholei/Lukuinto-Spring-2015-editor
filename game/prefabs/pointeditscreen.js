@@ -178,6 +178,7 @@ PointEditScreen.prototype.confirmListener = function() {
     } else {
       this.pointData.tasks.push(task);
     }
+    this.game.data.saveToLocalStorage();
     this.closeScreen();
   }
 };

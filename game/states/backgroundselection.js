@@ -11,6 +11,7 @@ BackgroundSelection.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, null, this);
     this.game.add.existing(this.mapView);
+    this.mapView.toggleInputOnPointViews(false);
     var titleText = this.game.add.text(512, 32, 'Vaihe 1: Lisää taustakuva pelille', titleTextStyle);
     titleText.anchor.setTo(0.5);
     var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
@@ -22,7 +23,6 @@ BackgroundSelection.prototype = {
     this.fileInputHandler.remove();
   },
   moveToNextState: function() {
-    this.game.data.saveToLocalStorage();
     this.game.state.start('pointeditor');
   }
 };

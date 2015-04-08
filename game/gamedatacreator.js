@@ -24,6 +24,15 @@ function GameData() {
       console.log('end');
     }
     this.points = gameData.points;
+
+    for (var i = 0; i < gameData.points.length; i++) {
+      var tasks = gameData.points[i].tasks;
+      for (var j = 0; j < tasks.length; j++) {
+        if (tasks[j].image !== undefined) {
+          tasks[j].image = undefined;
+        }
+      }
+    }
   };
 }
 
