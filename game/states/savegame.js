@@ -13,7 +13,7 @@ SaveGame.prototype = {
     this.textInput = addTextInput(this.game.world.centerX - 151, 220, 'Syötä pelin nimi', parentDiv);
     var centerX = this.game.world.centerX;
     var centerY = this.game.world.centerY;
-    var titleText = this.game.add.text(512, 32, 'Vaihe 4: Julkaise peli', titleTextStyle);
+    var titleText = this.game.add.text(512, 32, 'Vaihe 5: Julkaise peli', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttons = this.game.add.group();
     var saveButton = new LabeledButton(this.game, centerX, centerY - 73, 'Julkaise', this.uploadGameData, this);
@@ -112,7 +112,7 @@ SaveGame.prototype = {
     request.send(JSON.stringify(this.game.data));
   },
   moveToPreviousState: function() {
-    this.game.state.start('taskeditor');
+    this.game.state.start('congratulationseditor');
   },
 };
 module.exports = SaveGame;

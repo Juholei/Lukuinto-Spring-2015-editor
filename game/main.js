@@ -7,6 +7,7 @@ window.onload = function() {
   // Game States
   game.state.add('backgroundselection', require('./states/backgroundselection'));
   game.state.add('boot', require('./states/boot'));
+  game.state.add('congratulationseditor', require('./states/congratulationseditor'));
   game.state.add('pointeditor', require('./states/pointeditor'));
   game.state.add('preload', require('./states/preload'));
   game.state.add('savegame', require('./states/savegame'));

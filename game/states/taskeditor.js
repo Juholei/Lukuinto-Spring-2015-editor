@@ -7,8 +7,6 @@ var ErrorAnnouncement = require('../prefabs/errorannouncement');
 function TaskEditor() {}
 TaskEditor.prototype = {
   preload: function() {
-    // Override this method to add some load operations.
-    // If you need to use the loader, you may need to use them here.
   },
   create: function() {
     this.game.add.image(0, 0, 'frame');
@@ -46,7 +44,7 @@ TaskEditor.prototype = {
   },
   moveToNextState: function() {
     if (this.allPointsHaveTasks()) {
-      this.game.state.start('savegame');
+      this.game.state.start('congratulationseditor');
     } else {
       var callback = function(button) {
         this.buttons.setAll('inputEnabled', true);
@@ -58,7 +56,6 @@ TaskEditor.prototype = {
       this.mapView.toggleInputOnPointViews(false);
       this.game.add.existing(announcement);
     }
-
   },
   allPointsHaveTasks: function() {
     var points = this.game.data.points;
