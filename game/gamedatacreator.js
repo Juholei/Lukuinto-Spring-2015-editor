@@ -9,6 +9,22 @@ function GameData() {
   this.startPoint = new MajorPoint();
   this.endPoint = new MajorPoint();
   this.points = [];
+  this.saveToLocalStorage = function() {
+    window.localStorage.setItem('lukuseikkailu-editor', JSON.stringify(this));
+  };
+  this.loadFromLocalStorage = function() {
+    var loadedEditorState = window.localStorage.getItem('lukuseikkailu-editor');
+    var gameData = JSON.parse(loadedEditorState);
+    if (gameData.startPoint.x !== undefined) {
+      this.startPoint = gameData.startPoint;
+      console.log('start');
+    }
+    if (gameData.endPoint.x !== undefined) {
+      this.endPoint = gameData.endPoint;
+      console.log('end');
+    }
+    this.points = gameData.points;
+  };
 }
 
 function GamePoint(x, y, state, image) {

@@ -22,6 +22,7 @@ BackgroundSelection.prototype = {
     this.fileInputHandler.remove();
   },
   moveToNextState: function() {
+    this.game.data.saveToLocalStorage();
     this.game.state.start('pointeditor');
   }
 };

@@ -104,10 +104,12 @@ PointEditor.prototype = {
     return Math.floor(scaleCorrectedNumber);
   },
   moveToPreviousState: function() {
+    this.game.data.saveToLocalStorage();
     this.game.state.start('backgroundselection');
   },
   moveToNextState: function() {
     if (this.allPointsSet()) {
+      this.game.data.saveToLocalStorage();
       this.game.state.start('taskeditor');
     } else {
       var callback = function(button) {

@@ -70,6 +70,7 @@ CongratulationsEditor.prototype = {
     }
   },
   moveToPreviousState: function() {
+    this.game.data.saveToLocalStorage();
     this.game.state.start('taskeditor');
   },
   moveToNextState: function() {
@@ -81,6 +82,7 @@ CongratulationsEditor.prototype = {
       rookie: this.inputs[3].value,
       poor: this.inputs[4].value
     };
+    this.game.data.saveToLocalStorage();
     this.game.state.start('savegame');
   }
 };

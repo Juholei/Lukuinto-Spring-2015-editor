@@ -106,6 +106,7 @@ SaveGame.prototype = {
       if (request.readyState === 4) {
         console.log(request.responseText);
         self.progressText.text = 'Peli siirretty palvelimelle!';
+        window.localStorage.clear();
       }
     };
     request.setRequestHeader('Content-type', 'application/json');

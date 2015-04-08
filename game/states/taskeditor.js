@@ -40,10 +40,12 @@ TaskEditor.prototype = {
     this.buttons.setAll('inputEnabled', false);
   },
   moveToPreviousState: function() {
+    this.game.data.saveToLocalStorage();
     this.game.state.start('pointeditor');
   },
   moveToNextState: function() {
     if (this.allPointsHaveTasks()) {
+      this.game.data.saveToLocalStorage();
       this.game.state.start('congratulationseditor');
     } else {
       var callback = function(button) {
