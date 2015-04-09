@@ -27,6 +27,7 @@ Preload.prototype = {
   },
   create: function() {
     this.asset.cropEnabled = false;
+    window.scrollTo(10, 10);
   },
   update: function() {
     if (!!this.ready) {
