@@ -63,9 +63,9 @@ PointEditScreen.prototype.addTitleText = function() {
 PointEditScreen.prototype.addAnswerOptionsText = function() {
   var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
   var answerOptionsText = this.game.add.text(20, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
-  var isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
+  this.isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
   this.addChild(answerOptionsText);
-  this.addChild(isCorrectText);
+  this.addChild(this.isCorrectText);
 };
 
 //Add DOM textarea on top of the canvas for inputting question text
@@ -105,11 +105,17 @@ PointEditScreen.prototype.addAnswerInputs = function() {
 };
 
 PointEditScreen.prototype.addAnswerCheckboxInput = function(x, y, parent) {
+  var text = this.isCorrectText;
+  var clickListener = function() {
+    text.clearColors();
+  };
+
   var answerCheckboxInput = document.createElement('input');
   answerCheckboxInput.type = 'checkbox';
   answerCheckboxInput.className = 'answerCheckboxInput';
   answerCheckboxInput.style.left = x + 'px';
   answerCheckboxInput.style.top = y + 'px';
+  answerCheckboxInput.onclick = clickListener;
   parent.appendChild(answerCheckboxInput);
 
   return answerCheckboxInput;
@@ -165,8 +171,8 @@ PointEditScreen.prototype.addFileInputHandler = function() {
 //Take the values from DOM inputs and save them to GameData.
 //Then close this screen.
 PointEditScreen.prototype.confirmListener = function() {
-  var task = new GameDataCreator.Task();
   if (this.allFilled() && this.correctAnswerExists()) {
+    var task = new GameDataCreator.Task();
     task.question = this.questionInput.value;
     for (var i = 0; i < this.answerInputs.length; i++) {
       var answerText = this.answerInputs[i].answerTextInput.value;
@@ -176,7 +182,6 @@ PointEditScreen.prototype.confirmListener = function() {
     }
     if (this.imageInfo.image !== '') {
       task.image = this.imageInfo.image;
-      console.log(this.imageInfo.image);
     }
     if (this.taskSelector.value !== '') {
       this.pointData.tasks[this.taskSelector.value] = task;
@@ -185,24 +190,20 @@ PointEditScreen.prototype.confirmListener = function() {
     }
     this.game.data.saveToLocalStorage();
     this.closeScreen();
+  } else {
+    this.highlightMissingInfo();
   }
 };
 
 PointEditScreen.prototype.allFilled = function() {
-  var notFilled = 0;
   if (this.questionInput.value.length === 0) {
-    this.questionInput.className += ' error';
-    notFilled++;
+    return false;
   }
 
   for (var i = 0; i < this.answerInputs.length; i++) {
     if (this.answerInputs[i].answerTextInput.value.length === 0) {
-      this.answerInputs[i].answerTextInput.className += ' error';
-      notFilled++
+      return false;
     }
-  }
-  if (notFilled > 0) {
-    return false;
   }
   return true;
 };
@@ -214,6 +215,18 @@ PointEditScreen.prototype.correctAnswerExists = function() {
     }
   }
   return false;
+};
+
+PointEditScreen.prototype.highlightMissingInfo = function() {
+  if (this.questionInput.value.length === 0) {
+    this.questionInput.className += ' error';
+  }
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    if (this.answerInputs[i].answerTextInput.value.length === 0) {
+      this.answerInputs[i].answerTextInput.className += ' error';
+    }
+  }
+  this.isCorrectText.addColor('red', 0);
 };
 
 //Remove all DOM elements and then destroy the object.
