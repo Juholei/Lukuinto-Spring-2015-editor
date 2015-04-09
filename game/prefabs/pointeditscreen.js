@@ -221,12 +221,18 @@ PointEditScreen.prototype.highlightMissingInfo = function() {
   if (this.questionInput.value.length === 0) {
     this.questionInput.className += ' error';
   }
+  var correctAnswers = 0;
   for (var i = 0; i < this.answerInputs.length; i++) {
     if (this.answerInputs[i].answerTextInput.value.length === 0) {
       this.answerInputs[i].answerTextInput.className += ' error';
     }
+    if (this.answerInputs[i].answerCheckboxInput.checked) {
+      correctAnswers++;
+    }
   }
-  this.isCorrectText.addColor('red', 0);
+  if (correctAnswers === 0) {
+    this.isCorrectText.addColor('red', 0);
+  }
 };
 
 //Remove all DOM elements and then destroy the object.

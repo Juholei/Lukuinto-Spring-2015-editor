@@ -107,6 +107,7 @@ SaveGame.prototype = {
         console.log(request.responseText);
         self.progressText.text = 'Peli siirretty palvelimelle!';
         window.localStorage.clear();
+        self.addGameButton();
       }
     };
     request.setRequestHeader('Content-type', 'application/json');
@@ -115,5 +116,11 @@ SaveGame.prototype = {
   moveToPreviousState: function() {
     this.game.state.start('congratulationseditor');
   },
+  addGameButton: function() {
+    var goToGameButton = new LabeledButton(this.game, this.game.world.centerX, this.game.world.centerY + 100, 'Siirry peliin', function() {
+      window.location.href = '/';
+    }, this);
+    this.game.add.existing(goToGameButton);
+  }
 };
 module.exports = SaveGame;
