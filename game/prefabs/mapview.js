@@ -62,8 +62,8 @@ MapView.prototype.addPointView = function(pointView) {
 
 //Updates the text on PointViews to represent their current indexes.
 MapView.prototype.updatePointViews = function() {
-  this.pointViewSprites.forEach(function updateIndexText(item) {
-      item.updateIndexText();
+  this.pointViewSprites.forEach(function updateIndex(item) {
+      item.updateIndex();
     }, this);
 };
 

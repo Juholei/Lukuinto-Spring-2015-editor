@@ -63,15 +63,19 @@ PointEditScreen.prototype.addTitleText = function() {
 PointEditScreen.prototype.addAnswerOptionsText = function() {
   var answerOptionsTextStyle = {font: '12pt Arial', fill: 'white', align: 'left'};
   var answerOptionsText = this.game.add.text(20, 315, 'Vastausvaihtoehdot', answerOptionsTextStyle);
-  var isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
+  this.isCorrectText = this.game.add.text(335, 315, 'Oikein?', answerOptionsTextStyle);
   this.addChild(answerOptionsText);
-  this.addChild(isCorrectText);
+  this.addChild(this.isCorrectText);
 };
 
 //Add DOM textarea on top of the canvas for inputting question text
 PointEditScreen.prototype.addQuestionInput = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
+  var clickListener = function(click) {
+    click.target.className = 'questionBox';
+  };
   this.questionInput = document.createElement('textarea');
+  this.questionInput.onclick = clickListener;
   this.questionInput.className = 'questionBox';
   this.questionInput.setAttribute('placeholder', 'Etapin kuvaus tähän...');
   this.questionInput.style.left = (this.x + Constants.HTML.QUESTION_INPUT_X) + 'px';
@@ -83,12 +87,14 @@ PointEditScreen.prototype.addQuestionInput = function() {
 //and checkboxes for marking the answers correct or incorrect.
 PointEditScreen.prototype.addAnswerInputs = function() {
   var parentDiv = document.getElementById('lukuinto-spring-2015-editor');
-
+  var clickListener = function(click) {
+    click.target.className = 'textInput';
+  };
   for (var i = 0; i < 4; i++) {
     var textX = this.x + Constants.HTML.ANSWER_INPUT_X;
     var textY = this.y + Constants.HTML.ANSWER_INPUT_Y + i * Constants.HTML.MARGIN;
     var answerTextInput = addTextInput(textX, textY, 'Vastausvaihtoehto tähän', parentDiv);
-
+    answerTextInput.onclick = clickListener;
     var checkboxX = this.x + Constants.HTML.CHECKBOX_X;
     var checkboxY = this.y + Constants.HTML.CHECKBOX_Y + i * Constants.HTML.MARGIN;
     var answerCheckboxInput = this.addAnswerCheckboxInput(checkboxX, checkboxY, parentDiv);
@@ -99,11 +105,17 @@ PointEditScreen.prototype.addAnswerInputs = function() {
 };
 
 PointEditScreen.prototype.addAnswerCheckboxInput = function(x, y, parent) {
+  var text = this.isCorrectText;
+  var clickListener = function() {
+    text.clearColors();
+  };
+
   var answerCheckboxInput = document.createElement('input');
   answerCheckboxInput.type = 'checkbox';
   answerCheckboxInput.className = 'answerCheckboxInput';
   answerCheckboxInput.style.left = x + 'px';
   answerCheckboxInput.style.top = y + 'px';
+  answerCheckboxInput.onclick = clickListener;
   parent.appendChild(answerCheckboxInput);
 
   return answerCheckboxInput;
@@ -114,7 +126,7 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
   this.taskSelector = document.createElement('select');
   this.taskSelector.className = 'taskSelection';
   this.taskSelector.setAttribute('size', 10);
-  this.taskSelector.style.left = (this.x + Constants.HTML.TASKSELECTOR_X) + 'px';
+  this.taskSelector.style.left = (this.x + Constants.HTML.TASKSELECTOR_X)  + 'px';
   this.taskSelector.style.top = (this.y + Constants.HTML.QUESTION_INPUT_Y) + 'px';
 
   for (var i = 0; i < this.pointData.tasks.length; i++) {
@@ -126,7 +138,6 @@ PointEditScreen.prototype.addTaskSelectionBox = function() {
 
   var self = this;
   this.taskSelector.onchange = function() {
-    console.log(this.value);
     self.fillQuestionInput(this.value);
     self.fillAnswerInputs(this.value);
     self.addImagePreview(this.value);
@@ -160,26 +171,68 @@ PointEditScreen.prototype.addFileInputHandler = function() {
 //Take the values from DOM inputs and save them to GameData.
 //Then close this screen.
 PointEditScreen.prototype.confirmListener = function() {
-  var task = new GameDataCreator.Task();
-  task.question = this.questionInput.value;
+  if (this.allFilled() && this.correctAnswerExists()) {
+    var task = new GameDataCreator.Task();
+    task.question = this.questionInput.value;
+    for (var i = 0; i < this.answerInputs.length; i++) {
+      var answerText = this.answerInputs[i].answerTextInput.value;
+      var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
+      var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
+      task.answers.push(answer);
+    }
+    if (this.imageInfo.image !== '') {
+      task.image = this.imageInfo.image;
+    }
+    if (this.taskSelector.value !== '') {
+      this.pointData.tasks[this.taskSelector.value] = task;
+    } else {
+      this.pointData.tasks.push(task);
+    }
+    this.game.data.saveToLocalStorage();
+    this.closeScreen();
+  } else {
+    this.highlightMissingInfo();
+  }
+};
+
+PointEditScreen.prototype.allFilled = function() {
+  if (this.questionInput.value.length === 0) {
+    return false;
+  }
 
   for (var i = 0; i < this.answerInputs.length; i++) {
-    var answerText = this.answerInputs[i].answerTextInput.value;
-    var isAnswerCorrect = this.answerInputs[i].answerCheckboxInput.checked;
-    var answer = new GameDataCreator.Answer(answerText, isAnswerCorrect);
-    task.answers.push(answer);
+    if (this.answerInputs[i].answerTextInput.value.length === 0) {
+      return false;
+    }
   }
-  if (this.imageInfo.image !== '') {
-    task.image = this.imageInfo.image;
-    console.log(this.imageInfo.image);
+  return true;
+};
+
+PointEditScreen.prototype.correctAnswerExists = function() {
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    if (this.answerInputs[i].answerCheckboxInput.checked) {
+      return true;
+    }
   }
-  if (this.taskSelector.value !== '') {
-    this.pointData.tasks[this.taskSelector.value] = task;
-  } else {
-    this.pointData.tasks.push(task);
+  return false;
+};
+
+PointEditScreen.prototype.highlightMissingInfo = function() {
+  if (this.questionInput.value.length === 0) {
+    this.questionInput.className += ' error';
   }
-  this.updatePreviewText();
-  this.closeScreen();
+  var correctAnswers = 0;
+  for (var i = 0; i < this.answerInputs.length; i++) {
+    if (this.answerInputs[i].answerTextInput.value.length === 0) {
+      this.answerInputs[i].answerTextInput.className += ' error';
+    }
+    if (this.answerInputs[i].answerCheckboxInput.checked) {
+      correctAnswers++;
+    }
+  }
+  if (correctAnswers === 0) {
+    this.isCorrectText.addColor('red', 0);
+  }
 };
 
 //Remove all DOM elements and then destroy the object.
@@ -193,11 +246,6 @@ PointEditScreen.prototype.closeScreen = function() {
   this.fileInputHandler.remove();
   this.closingCallback();
   this.destroy();
-};
-
-PointEditScreen.prototype.updatePreviewText = function() {
-  var textArea = window.document.getElementById('outputJSON');
-  textArea.value = JSON.stringify(this.game.data, null, 2);
 };
 
 module.exports = PointEditScreen;

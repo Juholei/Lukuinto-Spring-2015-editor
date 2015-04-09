@@ -23,6 +23,7 @@ Preload.prototype = {
     this.load.spritesheet('previous-state', 'assets/edellinen.png', 78, 72, 3, 5, 10);
     this.load.image('point-edit-screen', 'assets/etapin_muokkaus_tausta.png');
     this.load.spritesheet('close-button', 'assets/sulje.png', 44, 44, 3, 5, 10);
+    this.load.image('announcement-negative', 'assets/huomio_tausta.png');
   },
   create: function() {
     this.asset.cropEnabled = false;

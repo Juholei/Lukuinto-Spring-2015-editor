@@ -2,6 +2,8 @@
 var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
+var ErrorAnnouncement = require('../prefabs/errorannouncement');
+var LabeledImageButton = require('../prefabs/labeledimagebutton');
 var Constants = require('../constants');
 var titleTextStyle = require('../titletextstyle');
 
@@ -21,16 +23,18 @@ PointEditor.prototype = {
   update: function() {
   },
   addButtons: function() {
-    var addStartPointButton = this.game.add.button(162, 649, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addStartPointButton = new LabeledImageButton(this.game, 162, 649, 'add-startpoint', 'Aseta lähtö', this.changeAction, this);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = this.game.add.button(343, 649, 'add-startpoint', this.changeAction, this, 1, 0);
+    var addEndPointButton = new LabeledImageButton(this.game, 343, 649, 'add-startpoint', 'Aseta maali', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addEndPointButton);
-    var addPointsButton = this.game.add.button(527, 649, 'add-point', this.changeAction, this, 1, 0);
+    var addPointsButton = new LabeledImageButton(this.game, 527, 649, 'add-point', 'Lisää etappi', this.changeAction, this, 1, 0);
     this.buttonGroup.add(addPointsButton);
-    var removePointsButton = this.game.add.button(708, 649, 'remove-point', this.changeAction, this, 1, 0);
+    var removePointsButton = new LabeledImageButton(this.game, 708, 649, 'remove-point', 'Poista etappi', this.changeAction, this, 1, 0);
     this.buttonGroup.add(removePointsButton);
-    this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
-    this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
+    this.buttonGroup.add(backButton);
+    var forwardButton = this.game.add.button(895, 644, 'next-state', this.moveToNextState, this, 1, 0, 2, 0);
+    this.buttonGroup.add(forwardButton);
   },
   //Changes the current action that happens on click based on the button that has been pressed.
   changeAction: function(button) {
@@ -71,14 +75,12 @@ PointEditor.prototype = {
       this.game.data.points.push(newPoint);
       var pointSprite = new PointView(this.game, newPoint, this.game.data.points, this.removePoint, this);
       this.mapView.addPointView(pointSprite);
-      this.updatePreviewText();
     }
   },
   removePoint: function(pointView) {
     var indexToRemove = this.game.data.points.indexOf(pointView.pointData);
     this.game.data.points.splice(indexToRemove, 1);
     this.mapView.updatePointViews();
-    this.updatePreviewText();
     pointView.kill();
   },
   addStartPoint: function(sprite, pointer) {
@@ -86,7 +88,6 @@ PointEditor.prototype = {
       this.game.data.startPoint.x = this.scaleUp(pointer.x - this.mapView.x);
       this.game.data.startPoint.y = this.scaleUp(pointer.y - this.mapView.y);
       this.mapView.updateStartPoint();
-      this.updatePreviewText();
     }
   },
   addEndPoint: function(sprite, pointer) {
@@ -94,12 +95,7 @@ PointEditor.prototype = {
       this.game.data.endPoint.x = this.scaleUp(pointer.x - this.mapView.x);
       this.game.data.endPoint.y = this.scaleUp(pointer.y - this.mapView.y);
       this.mapView.updateEndPoint();
-      this.updatePreviewText();
     }
-  },
-  updatePreviewText: function() {
-    var textArea = window.document.getElementById('outputJSON');
-    textArea.value = JSON.stringify(this.game.data, null, 2);
   },
   //Scales up point related numbers from the 0.75 scale of the displayed game area
   //to the correct game area size used in the game
@@ -108,10 +104,36 @@ PointEditor.prototype = {
     return Math.floor(scaleCorrectedNumber);
   },
   moveToPreviousState: function() {
+    this.game.data.saveToLocalStorage();
     this.game.state.start('backgroundselection');
   },
   moveToNextState: function() {
-    this.game.state.start('taskeditor');
+    if (this.allPointsSet()) {
+      this.game.data.saveToLocalStorage();
+      this.game.state.start('taskeditor');
+    } else {
+      var callback = function(button) {
+        this.buttonGroup.setAll('inputEnabled', true);
+        this.mapView.toggleInputOnPointViews(true);
+        button.parent.destroy();
+      };
+      var announcement = new ErrorAnnouncement(this.game, callback, this, 'Et ole asettanut kaikkia vaadittuja pisteitä.');
+      this.buttonGroup.setAll('inputEnabled', false);
+      this.mapView.toggleInputOnPointViews(false);
+      this.game.add.existing(announcement);
+    }
+  },
+  allPointsSet: function() {
+    if (this.game.data.startPoint.x === undefined) {
+      return false;
+    }
+    if (this.game.data.endPoint.x === undefined) {
+      return false;
+    }
+    if (this.game.data.points.length === 0) {
+      return false;
+    }
+    return true;
   }
 };
 
