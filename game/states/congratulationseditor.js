@@ -70,10 +70,16 @@ CongratulationsEditor.prototype = {
     }
   },
   moveToPreviousState: function() {
+    this.saveCongratulatoryTexts();
     this.game.data.saveToLocalStorage();
     this.game.state.start('taskeditor');
   },
   moveToNextState: function() {
+    this.saveCongratulatoryTexts();
+    this.game.data.saveToLocalStorage();
+    this.game.state.start('savegame');
+  },
+  saveCongratulatoryTexts: function() {
     var gameData = this.game.data;
     gameData.boyCongratulatoryStrings = {
       excellent: this.inputs[0].value,
@@ -82,8 +88,6 @@ CongratulationsEditor.prototype = {
       rookie: this.inputs[3].value,
       poor: this.inputs[4].value
     };
-    this.game.data.saveToLocalStorage();
-    this.game.state.start('savegame');
   }
 };
 module.exports = CongratulationsEditor;
