@@ -14,7 +14,7 @@ Boot.prototype = {
 
     var loadedEditorState = window.localStorage.getItem('lukuseikkailu-editor');
     if (loadedEditorState !== null) {
-      var confirmation = confirm('Haluatko jatkaa aiemmin aloitetun pelin tekemistä?')
+      var confirmation = confirm('Haluatko jatkaa aiemmin aloitetun pelin tekemistä?');
       if (confirmation) {
         this.game.data.loadFromLocalStorage();
       }

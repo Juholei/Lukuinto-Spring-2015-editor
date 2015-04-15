@@ -183,15 +183,19 @@ PointEditScreen.prototype.confirmListener = function() {
     if (this.imageInfo.image !== '') {
       task.image = this.imageInfo.image;
     }
-    if (this.taskSelector.value !== '') {
-      this.pointData.tasks[this.taskSelector.value] = task;
-    } else {
-      this.pointData.tasks.push(task);
-    }
+    this.addTaskToPointData(task);
     this.game.data.saveToLocalStorage();
     this.closeScreen();
   } else {
     this.highlightMissingInfo();
+  }
+};
+
+PointEditScreen.prototype.addTaskToPointData = function(task) {
+  if (this.taskSelector.value !== '') {
+    this.pointData.tasks[this.taskSelector.value] = task;
+  } else {
+    this.pointData.tasks.push(task);
   }
 };
 

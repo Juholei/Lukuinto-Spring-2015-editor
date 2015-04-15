@@ -29,6 +29,7 @@
     "URL": false,
     "Image": false,
     "XMLHttpRequest": false,
-    "FormData": false
+    "FormData": false,
+    "confirm": false
   }
 }
