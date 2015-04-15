@@ -117,7 +117,9 @@ SaveGame.prototype = {
     this.game.state.start('congratulationseditor');
   },
   addGameButton: function() {
-    var goToGameButton = new LabeledButton(this.game, this.game.world.centerX, this.game.world.centerY + 100, 'Siirry peliin', function() {
+    var x = this.game.world.centerX;
+    var y = this.game.world.centerY + 100;
+    var goToGameButton = new LabeledButton(this.game, x, y, 'Siirry peliin', function() {
       window.location.href = '/';
     }, this);
     this.game.add.existing(goToGameButton);
