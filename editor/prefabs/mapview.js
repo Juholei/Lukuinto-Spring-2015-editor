@@ -26,6 +26,7 @@ var MapView = function(game, pointViewCallback, pointViewCallbackContext) {
   this.endPointViewSprite = this.initializeMajorPointView(this.game.data.endPoint, 1);
   this.initializePointViewsFromGameData(pointViewCallback, pointViewCallbackContext);
   loadImageToSprite(this.displayImage, this.game.data.image);
+  this.game.add.existing(this);
 };
 
 MapView.prototype = Object.create(Phaser.Image.prototype);

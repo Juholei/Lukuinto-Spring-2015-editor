@@ -5,6 +5,7 @@ var LabeledImageButton = function(game, x, y, imageKey, label, callback, callbac
   var textStyle = {font: '11pt Arial', fill: 'white', align: 'left'};
   var buttonText = this.game.add.text(57, 20, label, textStyle);
   this.addChild(buttonText);
+  this.game.add.existing(this);
 };
 
 LabeledImageButton.prototype = Object.create(Phaser.Button.prototype);

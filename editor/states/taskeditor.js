@@ -11,7 +11,6 @@ TaskEditor.prototype = {
   create: function() {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.pointViewCallback, this);
-    this.game.add.existing(this.mapView);
     var titleText = this.game.add.text(512, 32, 'Vaihe 3: Luo tehtävät etappeihin valitsemalla etappi', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttons = this.game.add.group();
@@ -33,7 +32,6 @@ TaskEditor.prototype = {
       self.buttons.setAll('inputEnabled', true);
     };
     var editScreen = new PointEditScreen(this.game, pointView.pointData, closingCallback);
-    this.game.add.existing(editScreen);
     pointView.frame = 1;
     pointView.freezeFrames = true;
     this.mapView.toggleInputOnPointViews(false);
@@ -56,7 +54,6 @@ TaskEditor.prototype = {
       var announcement = new ErrorAnnouncement(this.game, callback, this, 'Kaikilla etapeilla ei ole tehtäviä.');
       this.buttons.setAll('inputEnabled', false);
       this.mapView.toggleInputOnPointViews(false);
-      this.game.add.existing(announcement);
     }
   },
   allPointsHaveTasks: function() {
