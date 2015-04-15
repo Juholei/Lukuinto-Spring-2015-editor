@@ -11,7 +11,6 @@ var Announcement = function(game, callback, callbackContext, text) {
   this.addBackgroundBox();
   this.addTitleText(text);
   this.addOkButton(0, 108, callback, callbackContext);
-  this.game.add.existing(this);
 };
 
 Announcement.prototype = Object.create(Phaser.Sprite.prototype);

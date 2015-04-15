@@ -120,6 +120,7 @@ SaveGame.prototype = {
     var goToGameButton = new LabeledButton(this.game, this.game.world.centerX, this.game.world.centerY + 100, 'Siirry peliin', function() {
       window.location.href = '/';
     }, this);
+    this.game.add.existing(goToGameButton);
   }
 };
 module.exports = SaveGame;

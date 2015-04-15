@@ -8,7 +8,6 @@ var LabeledButton = function(game, x, y, label, callback, callbackContext) {
   var buttonText = this.game.add.text(0, 0, label, textStyle);
   buttonText.anchor.setTo(0.5, 0.5);
   this.addChild(buttonText);
-  this.game.add.existing(this);
 };
 
 LabeledButton.prototype = Object.create(Phaser.Button.prototype);

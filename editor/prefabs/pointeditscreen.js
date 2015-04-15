@@ -29,7 +29,6 @@ var PointEditScreen = function(game, pointData, closingCallback) {
   this.addAnswerInputs();
   this.addFileInputHandler();
   this.addButtons();
-  this.game.add.existing(this);
 };
 
 PointEditScreen.prototype = Object.create(Phaser.Image.prototype);

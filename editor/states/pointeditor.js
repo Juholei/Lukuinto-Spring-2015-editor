@@ -14,6 +14,7 @@ PointEditor.prototype = {
     this.game.add.image(0, 0, 'frame');
     this.mapView = new MapView(this.game, this.removePoint, this);
     this.mapView.toggleInputOnPointViews(false);
+    this.game.add.existing(this.mapView);
     var titleText = this.game.add.text(512, 32, 'Vaihe 2: Aseta etapit kartalle', titleTextStyle);
     titleText.anchor.setTo(0.5);
     this.buttonGroup = this.game.add.group();
@@ -119,6 +120,7 @@ PointEditor.prototype = {
       var announcement = new ErrorAnnouncement(this.game, callback, this, 'Et ole asettanut kaikkia vaadittuja pisteitä.');
       this.buttonGroup.setAll('inputEnabled', false);
       this.mapView.toggleInputOnPointViews(false);
+      this.game.add.existing(announcement);
     }
   },
   allPointsSet: function() {
