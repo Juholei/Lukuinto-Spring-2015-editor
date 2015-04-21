@@ -7,10 +7,7 @@ function Preload() {
 
 Preload.prototype = {
   preload: function() {
-    this.asset = this.add.sprite(512, 384, 'preloader');
-    this.asset.anchor.setTo(0.5, 0.5);
-    this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
-    this.load.setPreloadSprite(this.asset);
+    this.addLoadingIndicator();
     this.load.image('frame', 'assets/kehys.png');
     this.load.image('background', 'assets/karttatausta.png');
     this.load.spritesheet('point', 'assets/karttapiste.png', 44, 44, 2, 5, 10);
@@ -36,6 +33,12 @@ Preload.prototype = {
   },
   onLoadComplete: function() {
     this.ready = true;
+  },
+  addLoadingIndicator: function() {
+    this.asset = this.add.sprite(512, 384, 'preloader');
+    this.asset.anchor.setTo(0.5, 0.5);
+    this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
+    this.load.setPreloadSprite(this.asset);
   }
 };
 

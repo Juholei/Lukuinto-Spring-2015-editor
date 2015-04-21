@@ -3,7 +3,7 @@ var GameDataCreator = require('../gamedatacreator');
 var PointView = require('../prefabs/pointview');
 var MapView = require('../prefabs/mapview');
 var ErrorAnnouncement = require('../prefabs/errorannouncement');
-var LabeledImageButton = require('../prefabs/labeledimagebutton');
+var ImgButton = require('../prefabs/labeledimagebutton');
 var Constants = require('../constants');
 var titleTextStyle = require('../titletextstyle');
 
@@ -23,13 +23,14 @@ PointEditor.prototype = {
   update: function() {
   },
   addButtons: function() {
-    var addStartPointButton = new LabeledImageButton(this.game, 162, 649, 'add-startpoint', 'Aseta lähtö', this.changeAction, this);
+    var game = this.game;
+    var addStartPointButton = new ImgButton(game, 162, 649, 'add-startpoint', 'Aseta lähtö', this.changeAction, this);
     this.buttonGroup.add(addStartPointButton);
-    var addEndPointButton = new LabeledImageButton(this.game, 343, 649, 'add-startpoint', 'Aseta maali', this.changeAction, this, 1, 0);
+    var addEndPointButton = new ImgButton(game, 343, 649, 'add-startpoint', 'Aseta maali', this.changeAction, this);
     this.buttonGroup.add(addEndPointButton);
-    var addPointsButton = new LabeledImageButton(this.game, 527, 649, 'add-point', 'Lisää etappi', this.changeAction, this, 1, 0);
+    var addPointsButton = new ImgButton(game, 527, 649, 'add-point', 'Lisää etappi', this.changeAction, this);
     this.buttonGroup.add(addPointsButton);
-    var removePointsButton = new LabeledImageButton(this.game, 708, 649, 'remove-point', 'Poista etappi', this.changeAction, this, 1, 0);
+    var removePointsButton = new ImgButton(game, 708, 649, 'remove-point', 'Poista etappi', this.changeAction, this);
     this.buttonGroup.add(removePointsButton);
     var backButton = this.game.add.button(50, 641, 'previous-state', this.moveToPreviousState, this, 1, 0, 2, 0);
     this.buttonGroup.add(backButton);
@@ -117,7 +118,8 @@ PointEditor.prototype = {
         this.mapView.toggleInputOnPointViews(true);
         button.parent.destroy();
       };
-      var announcement = new ErrorAnnouncement(this.game, callback, this, 'Et ole asettanut kaikkia vaadittuja pisteitä.');
+      var errorText = 'Et ole asettanut kaikkia vaadittuja pisteitä.';
+      var announcement = new ErrorAnnouncement(this.game, callback, this, errorText);
       this.buttonGroup.setAll('inputEnabled', false);
       this.mapView.toggleInputOnPointViews(false);
       this.game.add.existing(announcement);
