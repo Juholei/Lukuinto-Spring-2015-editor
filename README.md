@@ -10,3 +10,11 @@ After npm has installed all the requirements for building the project, use Bower
 After installing all the dependencies, command 'grunt serve' builds and runs the game in browser. Command 'grunt build' builds the project into a production build in directory 'dist'. This can then be deployed to webserver.
 
 The editor can be deployed separately from the game (which also has the server component), but uploading the game does not work in this case, if the server doesn't exist in the correct place.
+
+## Screenshots
+![Editor phase 1](screenshots/editor_phase_1.png "Editor phase 1")
+![Editor phase 1](screenshots/editor_phase_2.png "Editor phase 2")
+![Editor phase 1](screenshots/editor_phase_3.png "Editor phase 3")
+![Editor phase 1](screenshots/editor_phase_4.png "Editor phase 4")
+![Editor phase 1](screenshots/editor_phase_5.png "Editor phase 5")
+![Editor phase 1](screenshots/editor_phase_6.png "Editor phase 6")
